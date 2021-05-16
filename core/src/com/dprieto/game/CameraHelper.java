@@ -14,6 +14,9 @@ public class CameraHelper {
     float worldWidth;
     float worldHeight;
 
+    float viewportWidth;
+    float viewportHeight;
+
     float width;
     float height;
 
@@ -30,8 +33,11 @@ public class CameraHelper {
         this.worldWidth = worldWidth;
         this.worldHeight = worldHeight;
 
-        width = (worldWidth * Gdx.graphics.getHeight())/Gdx.graphics.getHeight();
-        height = width * (worldHeight/worldWidth);
+        viewportWidth = worldWidth;
+        viewportHeight = worldHeight;
+
+        width = (viewportHeight / Gdx.graphics.getHeight())*Gdx.graphics.getWidth();
+        height = viewportHeight;
 
         currentWidth = width;
         currentHeight = height;
@@ -60,7 +66,9 @@ public class CameraHelper {
     {
         position.x += xOffset;
         position.y += yOffset;
+
         update();
+
         camera.update();
     }
 
@@ -68,11 +76,13 @@ public class CameraHelper {
     {
         float newZoom = currentZoom + (zoomOffset * 0.1f);
 
-        if ( maxZoom > newZoom && newZoom > minZoom)
+        if ( maxZoom >= newZoom && newZoom >= minZoom)
         {
             currentZoom = newZoom;
+
             currentWidth = width * currentZoom;
             currentHeight = height * currentZoom;
+
             camera.viewportWidth = currentWidth;
             camera.viewportHeight = currentHeight;
         }
@@ -82,6 +92,21 @@ public class CameraHelper {
 
     public void resize(int newWidth, int newHeight)
     {
+        if(newHeight > newWidth) //if more height than width adjust width
+        {
+            width = (viewportHeight / newHeight)*newWidth;
+            height = viewportHeight;
+        }
+        else //If more width than height adjust the height
+        {
+            height = (viewportWidth / newWidth) * newHeight;
+            width = viewportWidth;
+        }
 
+        currentWidth = width;
+        currentHeight = height;
+
+        camera.viewportWidth = width;
+        camera.viewportHeight = height;
     }
 }

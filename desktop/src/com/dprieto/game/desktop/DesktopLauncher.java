@@ -10,6 +10,9 @@ public class DesktopLauncher {
 
 		config.forceExit = false;
 
+		config.width = LwjglApplicationConfiguration.getDesktopDisplayMode().width;
+		config.height = LwjglApplicationConfiguration.getDesktopDisplayMode().height;
+
 		new LwjglApplication(new TowerDefense(), config);
 	}
 }
