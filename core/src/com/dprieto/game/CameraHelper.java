@@ -76,7 +76,7 @@ public class CameraHelper {
     {
         float newZoom = currentZoom + (zoomOffset * 0.1f);
 
-        if ( maxZoom >= newZoom && newZoom >= minZoom)
+        if ( maxZoom >= newZoom && newZoom > minZoom)
         {
             currentZoom = newZoom;
 
