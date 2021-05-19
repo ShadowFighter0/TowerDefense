@@ -39,6 +39,7 @@ public class Constants {
 
     public final HashMap<TowerType,TowerStats> towerStats;
     public final HashMap<EnemyType,EnemyStats> enemyStats;
+    public final HashMap<String,Float> animations;
 
     Constants()
     {
@@ -58,6 +59,22 @@ public class Constants {
         enemyStats.put(EnemyType.shamanEnemy,new EnemyStats(100,20,20,50,5));
         enemyStats.put(EnemyType.goblinEnemy,new EnemyStats(50,50,15,50,5));
 
+        animations = new HashMap<String, Float>();
+        animations.put("batEnemyAnimationWalking", 0.1f);
+        animations.put("batEnemyAnimationAttacking", 0.1f);
+        animations.put("batEnemyAnimationDying", 0.1f);
+
+        animations.put("goblinEnemyAnimationAttacking", 0.1f);
+        animations.put("goblinEnemyAnimationWalking", 0.1f);
+        animations.put("goblinEnemyAnimationDying", 0.1f);
+
+        animations.put("orcEnemyAnimationAttacking", 0.1f);
+        animations.put("orcEnemyAnimationWalking", 0.1f);
+        animations.put("orcEnemyAnimationDying", 0.1f);
+
+        animations.put("guardAnimationAttacking", 0.075f);
+        animations.put("guardAnimationWalking", 0.075f);
+        animations.put("guardAnimationDying", 0.075f);
     }
 
     public static Constants getInstance()

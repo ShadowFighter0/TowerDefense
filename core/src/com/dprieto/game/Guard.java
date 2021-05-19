@@ -24,37 +24,45 @@ public class Guard extends GameObject {
     Vector2 patrolPosition;
     Enemy enemyTarget;
 
+    //Animations
+    Animation attackingAnimation;
+    Animation walkingAnimation;
+    Animation dyingAnimation;
+
+    Animation currentAnimation;
+
     //Image
-    TextureRegion guardImage;
     TextureRegion healthbar;
 
     public Guard (Tower tower){
 
         setActive(false);
         this.tower = tower;
-        this.guardImage = AssetManager.getInstance().getTexture("guard");
+
+        attackingAnimation = new Animation("guard","Attacking");
+        walkingAnimation = new Animation("guard","Walking");
+        dyingAnimation = new Animation("guard","Dying");
+
+        setDimension(walkingAnimation.getSprite(0));
+
         this.healthbar = AssetManager.getInstance().getTexture("healthbar");
     }
 
-    public void init(){
+    public void spawn(){
 
         maxHealth = tower.stats.barrackSoldiersHealth;
         currentHealth = maxHealth;
+
+        position = tower.position.cpy();
+
         damage = tower.stats.damage;
         speed = tower.stats.shootSpeed;
-
-        radius = tower.stats.barrackSoldierRadius;
-
         reloadTime = tower.stats.barrackSoldierReloadTime;
         currentReloadTime = reloadTime * 0.75f;
-        enemyTarget = null;
-    }
+        radius = tower.stats.barrackSoldierRadius;
 
-    public void spawn(){
-        maxHealth = tower.stats.barrackSoldiersHealth;
-        position = tower.position.cpy();
-        currentHealth = maxHealth;
-        currentReloadTime = reloadTime * 0.75f;
+        currentAnimation = walkingAnimation;
+
         setActive(true);
         enemyTarget = null;
     }
@@ -64,7 +72,7 @@ public class Guard extends GameObject {
         int offsetX = MathUtils.random(-2, 2);
         int offsetY = MathUtils.random(-2, 2);
 
-        Vector2 offset = new Vector2(guardImage.getRegionWidth()/2,guardImage.getRegionHeight()/2).scl(offsetX,offsetY);
+        Vector2 offset = new Vector2(dimension.x/2,dimension.y/2).scl(offsetX,offsetY);
 
         patrolPosition = newPosition.cpy().add(offset);
     }
@@ -122,6 +130,8 @@ public class Guard extends GameObject {
 
                 getEnemy();
             }
+
+            currentAnimation.update(delta);
         }
     }
 
@@ -158,13 +168,13 @@ public class Guard extends GameObject {
 
         if (isActive())
         {
-            batch.draw(guardImage, position.x - guardImage.getRegionWidth()/2, position.y - guardImage.getRegionHeight()/2);
+            batch.draw(currentAnimation.getCurrentSprite(),position.x - dimension.x/2,position.y - dimension.y/2);
 
             //Display Life
-            batch.draw(healthbar, position.x - healthbar.getRegionWidth()/2, position.y + guardImage.getRegionHeight()/2);
+            batch.draw(healthbar, position.x - healthbar.getRegionWidth()/2, position.y + dimension.y/2);
 
             batch.setColor(1,0,0,1);
-            batch.draw(healthbar, position.x - healthbar.getRegionWidth()/2, position.y + guardImage.getRegionHeight()/2,
+            batch.draw(healthbar, position.x - healthbar.getRegionWidth()/2, position.y + dimension.y/2,
                     healthbar.getRegionWidth() * ((float)currentHealth/ (float)maxHealth), healthbar.getRegionHeight());
             batch.setColor(1,1,1, 1);
         }

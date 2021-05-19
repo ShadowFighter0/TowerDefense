@@ -1,5 +1,6 @@
 package com.dprieto.game;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class Animation {
@@ -12,7 +13,15 @@ public class Animation {
 
     public Animation(Constants.EnemyType type, String state)
     {
+        Gdx.app.debug("", type.name() + "Animation" + state);
         sprites = AssetManager.getInstance().getAnimation(type.name() + "Animation" + state);
+        frameDuration = Constants.getInstance().animations.get(type.name() + "Animation" + state);
+    }
+    public Animation(String name, String state)
+    {
+        Gdx.app.debug("", name + "Animation" + state);
+        sprites = AssetManager.getInstance().getAnimation(name + "Animation" + state);
+        frameDuration = Constants.getInstance().animations.get(name + "Animation" + state);
     }
 
     public void play()

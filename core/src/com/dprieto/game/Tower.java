@@ -78,14 +78,7 @@ public class Tower extends GameObject{
         shootImage = AssetManager.getInstance().getTexture(type.name() + "Shoot");
         stats  = Constants.getInstance().towerStats.get(option);
 
-        if(option == Constants.TowerType.barrackTower)
-        {
-            for(Guard guard : guards)
-            {
-                guard.init();
-            }
-        }
-        else
+        if (option != Constants.TowerType.barrackTower)
         {
             for(Guard guard : guards)
             {
