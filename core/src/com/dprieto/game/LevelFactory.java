@@ -91,10 +91,10 @@ public class LevelFactory {
                 wave.add(new WaveOrder(Constants.EnemyType.goblinEnemy,1));
                 levelWaves.add(new Wave(wave,20));
                 ////Wave5
-                wave = new ArrayList<WaveOrder>();
-                wave.add(new WaveOrder(Constants.EnemyType.shamanEnemy,1));
-                wave.add(new WaveOrder(Constants.EnemyType.shamanEnemy,1));
-                levelWaves.add(new Wave(wave,20));
+                //wave = new ArrayList<WaveOrder>();
+                //wave.add(new WaveOrder(Constants.EnemyType.shamanEnemy,1));
+                //wave.add(new WaveOrder(Constants.EnemyType.shamanEnemy,1));
+                //levelWaves.add(new Wave(wave,20));
 
 
                 return new Level(

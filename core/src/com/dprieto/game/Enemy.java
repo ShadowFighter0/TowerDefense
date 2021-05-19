@@ -1,20 +1,26 @@
 package com.dprieto.game;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+
 import java.util.ArrayList;
-import java.util.Vector;
 
 public class Enemy extends GameObject{
 
+    //Animations
+    Animation attackingAnimation;
+    Animation walkingAnimation;
+    Animation dyingAnimation;
+
+    Animation currentAnimation;
+
     //Image
-    TextureRegion image;
     TextureRegion healthbar;
 
     //Variables
     Constants.EnemyType type;
+    Constants.EnemyState currentState;
     EnemyStats stats;
     int currentHealth;
     float currentReloadTime;
@@ -78,10 +84,12 @@ public class Enemy extends GameObject{
         if (this.type != type)
         {
             this.type = type;
-            image = AssetManager.getInstance().getTexture(type.name());
             stats = Constants.getInstance().enemyStats.get(type);
-            dimension.x = image.getRegionWidth();
-            dimension.y = image.getRegionHeight();
+
+            attackingAnimation = new Animation(type,"Attacking");
+            walkingAnimation = new Animation(type,"Walking");
+            dyingAnimation = new Animation(type,"Dying");
+            setDimension(walkingAnimation.getSprite(0));
         }
 
         currentHealth = stats.health;
@@ -90,6 +98,8 @@ public class Enemy extends GameObject{
         nextPoint = 1;
         guard = null;
 
+        currentState = Constants.EnemyState.walking;
+        currentAnimation = walkingAnimation;
         setActive(true);
     }
 
@@ -127,8 +137,10 @@ public class Enemy extends GameObject{
     private void attackGuard(float delta) {
         if (position.dst(guard.position) <= Constants.ENEMY_DISTANCE_THRESHOLD)
         {
+            currentState = Constants.EnemyState.attacking;
             if (currentReloadTime >= stats.reloadTime)
             {
+
                 currentReloadTime = 0;
 
                 if (guard.getDamage(stats.damage))
@@ -160,6 +172,8 @@ public class Enemy extends GameObject{
                 moveToGuard(delta);
                 attackGuard(delta);
             }
+
+        currentAnimation.update(delta);
         }
     }
 
@@ -168,13 +182,13 @@ public class Enemy extends GameObject{
 
         if(isActive())
         {
-            batch.draw(image,position.x - dimension.x/2,position.y - dimension.y/2);
+            batch.draw(currentAnimation.getCurrentSprite(),position.x - dimension.x/2,position.y - dimension.y/2);
 
             //DisplayLife
-            batch.draw(healthbar, position.x - healthbar.getRegionWidth()/2, position.y + image.getRegionHeight()/2);
+            batch.draw(healthbar, position.x - healthbar.getRegionWidth()/2, position.y + dimension.y/2);
 
             batch.setColor(1,0,0,1);
-            batch.draw(healthbar, position.x - healthbar.getRegionWidth()/2, position.y + image.getRegionHeight()/2,
+            batch.draw(healthbar, position.x - healthbar.getRegionWidth()/2, position.y + dimension.y/2,
                     healthbar.getRegionWidth() * ((float)currentHealth/(float)stats.health), healthbar.getRegionHeight());
             batch.setColor(1,1,1,1);
         }

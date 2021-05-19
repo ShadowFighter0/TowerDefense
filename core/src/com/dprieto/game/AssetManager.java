@@ -2,6 +2,7 @@ package com.dprieto.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import java.util.HashMap;
@@ -19,6 +20,7 @@ public class AssetManager {
         maps = new HashMap<String,Texture>();
         textures = new HashMap<String,TextureRegion>();
         animations = new HashMap<String, TextureRegion[]>();
+
         LoadMaps();
         LoadAnimations();
         LoadTextures();
@@ -61,25 +63,24 @@ public class AssetManager {
         Texture texture;
         TextureRegion region;
 
-        TextureRegion[] animation = new TextureRegion[numRows * numColumns];
+        TextureRegion[] sprites = new TextureRegion[numRows * numColumns];
 
         texture = new Texture(Gdx.files.internal(filePath));
 
         int currentRow = 0;
         int currentColumn = 0;
-        for (int i = 0; i < animation.length; i++)
+        for (int i = 0; i < sprites.length; i++)
         {
             currentColumn %= numColumns;
             currentRow %= numRows;
 
             region = new TextureRegion(texture, currentColumn * xSize, currentRow * ySize, xSize, ySize);
-            animation[i] = region;
+            sprites[i] = region;
 
             currentColumn++;
             currentRow += currentColumn >= numColumns ? 1 : 0;
         }
-
-        animations.put(animationName, animation);
+        animations.put(animationName, sprites);
     }
 
     void LoadAnimationFromFile(String filePath, String animationName, int numColumns, int numRows, int xSize, int ySize,
@@ -88,13 +89,13 @@ public class AssetManager {
         Texture texture;
         TextureRegion region;
 
-        TextureRegion[] animation = new TextureRegion[numRows * numColumns];
+        TextureRegion[] sprites = new TextureRegion[numRows * numColumns];
 
         texture = new Texture(Gdx.files.internal(filePath));
 
         int currentRow = 0;
         int currentColumn = 0;
-        for (int i = 0; i < animation.length; i++)
+        for (int i = 0; i < sprites.length; i++)
         {
             currentColumn %= numColumns;
             currentRow %= numRows;
@@ -102,13 +103,13 @@ public class AssetManager {
             region = new TextureRegion(texture,
                     initialXOffset + (currentColumn * (xSize + xOffset)) , initialYOffset + (currentRow * (ySize + yOffset)),
                     xSize, ySize);
-            animation[i] = region;
+            sprites[i] = region;
 
             currentColumn++;
             currentRow += currentColumn >= numColumns ? 1 : 0;
         }
 
-        animations.put(animationName, animation);
+        animations.put(animationName, sprites);
     }
 
     void LoadAnimations()
@@ -117,22 +118,22 @@ public class AssetManager {
         Texture texture;
 
         //Load Enemies
-        LoadAnimationFromFile("Enemies/Bat.png","BatAnimation", 3,2,60,60);
+        LoadAnimationFromFile("Enemies/Bat.png","batEnemyAnimationWalking", 3,2,60,60);
 
-        LoadAnimationFromFile("Enemies/Goblin.png","GoblinAnimationAttack", 1,6,95,95);
-        LoadAnimationFromFile("Enemies/Goblin.png","GoblinAnimationWalking", 1,6,95,95,0,100,0,0 );
-        LoadAnimationFromFile("Enemies/Goblin.png","GoblinAnimationDying", 1,6,95,95,0,190,0,0);
+        LoadAnimationFromFile("Enemies/Goblin.png","goblinEnemyAnimationAttacking", 1,6,95,95);
+        LoadAnimationFromFile("Enemies/Goblin.png","goblinEnemyAnimationWalking", 1,6,95,95,0,100,0,0);
+        LoadAnimationFromFile("Enemies/Goblin.png","goblinEnemyAnimationDying", 1,6,95,95,0,190,0,0);
 
-        LoadAnimationFromFile("Enemies/Orc.png","OrcAnimationAttack", 1,6,95,95);
-        LoadAnimationFromFile("Enemies/Orc.png","OrcAnimationWalking", 1,6,95,95,0,95,0,0);
-        LoadAnimationFromFile("Enemies/Orc.png","OrcAnimationDying", 1,6,95,95,0,190,0,0);
+        LoadAnimationFromFile("Enemies/Orc.png","orcEnemyAnimationAttacking", 1,6,95,95);
+        LoadAnimationFromFile("Enemies/Orc.png","orcEnemyAnimationWalking", 1,6,95,95,0,95,0,0);
+        LoadAnimationFromFile("Enemies/Orc.png","orcEnemyAnimationDying", 1,6,95,95,0,190,0,0);
 
-        LoadAnimationFromFile("Enemies/Shaman.png","ShamanAnimationWalking", 1,6,95,95);
+        LoadAnimationFromFile("Enemies/Shaman.png","shamanEnemyAnimationWalking", 1,6,95,95);
 
         //Load Guardians
-        LoadAnimationFromFile("Towers/Guards.png","GuardAnimationAttack", 1,6,95,95);
-        LoadAnimationFromFile("Towers/Guards.png","GuardAnimationWalking", 1,6,95,95,0,95,0,0);
-        LoadAnimationFromFile("Towers/Guards.png","GuardAnimationDying", 1,6,95,95,0,190,0,0);
+        LoadAnimationFromFile("Towers/Guards.png","guardAnimationAttacking", 1,6,95,95);
+        LoadAnimationFromFile("Towers/Guards.png","guardAnimationWalking", 1,6,95,95,0,95,0,0);
+        LoadAnimationFromFile("Towers/Guards.png","guardAnimationDying", 1,6,95,95,0,190,0,0);
     }
 
     void LoadTextures()
