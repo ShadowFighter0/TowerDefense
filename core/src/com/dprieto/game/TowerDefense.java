@@ -71,4 +71,10 @@ public class TowerDefense extends ApplicationAdapter {
 	public void dispose () {
 		batch.dispose();
 	}
+
+	@Override
+	public void pause() {
+		super.pause();
+
+	}
 }

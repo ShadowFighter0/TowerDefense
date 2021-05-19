@@ -13,7 +13,10 @@ public class Constants {
     public static final float ZOOM_MOBILE_SENSITIVITY = 0.001f;
     public static final float PAN_MOBILE_SENSITIVITY = 0.25f;
 
-    public enum TowerType {sign,
+    public float timeScale = 1f;
+
+    public enum TowerType {
+        sign,
         barrackTower,barrackTower2,barrackTower3,
         bowTower, bowTower2, bowTower3,
         crossbowTower,crossbowTower2,crossbowTower3,
@@ -32,7 +35,6 @@ public class Constants {
 
     public final HashMap<TowerType,TowerStats> towerStats;
     public final HashMap<EnemyType,EnemyStats> enemyStats;
-    //public final HashMap<GuardType,GuardStats> guardStats;
 
     Constants()
     {

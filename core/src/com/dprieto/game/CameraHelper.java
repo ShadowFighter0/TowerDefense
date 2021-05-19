@@ -10,6 +10,8 @@ public class CameraHelper {
     OrthographicCamera camera;
 
     Vector2 position;
+    Vector2 target;
+    boolean isGoingToTarget;
 
     float worldWidth;
     float worldHeight;

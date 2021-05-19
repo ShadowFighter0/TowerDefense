@@ -12,11 +12,15 @@ public class AssetManager {
 
     HashMap<String,Texture> maps;
     HashMap<String,TextureRegion> textures;
+    HashMap<String, TextureRegion[]> animations;
 
     private AssetManager()
     {
         maps = new HashMap<String,Texture>();
         textures = new HashMap<String,TextureRegion>();
+        animations = new HashMap<String, TextureRegion[]>();
+        LoadMaps();
+        LoadAnimations();
         LoadTextures();
     }
 
@@ -29,25 +33,111 @@ public class AssetManager {
         return instance;
     }
 
+    //Get
     public Texture getMap (String mapName)
     {
         return maps.get(mapName);
     }
-
     public TextureRegion getTexture(String textureName)
     {
         return textures.get(textureName);
+    }
+    public TextureRegion[] getAnimation(String animationName)
+    {
+        return animations.get(animationName);
+    }
+
+    //Load Assets
+    void LoadMaps()
+    {
+        //Load Maps TODO from tiled
+        maps.put("Map1",new Texture(Gdx.files.internal("Maps/Map_01.png")));
+        maps.put("Map2",new Texture(Gdx.files.internal("Maps/Map_02.png")));
+        maps.put("Map2",new Texture(Gdx.files.internal("Maps/Map_03.png")));
+    }
+
+    void LoadAnimationFromFile(String filePath, String animationName, int numColumns, int numRows, int xSize, int ySize)
+    {
+        Texture texture;
+        TextureRegion region;
+
+        TextureRegion[] animation = new TextureRegion[numRows * numColumns];
+
+        texture = new Texture(Gdx.files.internal(filePath));
+
+        int currentRow = 0;
+        int currentColumn = 0;
+        for (int i = 0; i < animation.length; i++)
+        {
+            currentColumn %= numColumns;
+            currentRow %= numRows;
+
+            region = new TextureRegion(texture, currentColumn * xSize, currentRow * ySize, xSize, ySize);
+            animation[i] = region;
+
+            currentColumn++;
+            currentRow += currentColumn >= numColumns ? 1 : 0;
+        }
+
+        animations.put(animationName, animation);
+    }
+
+    void LoadAnimationFromFile(String filePath, String animationName, int numColumns, int numRows, int xSize, int ySize,
+                               int initialXOffset, int initialYOffset,  int xOffset, int yOffset)
+    {
+        Texture texture;
+        TextureRegion region;
+
+        TextureRegion[] animation = new TextureRegion[numRows * numColumns];
+
+        texture = new Texture(Gdx.files.internal(filePath));
+
+        int currentRow = 0;
+        int currentColumn = 0;
+        for (int i = 0; i < animation.length; i++)
+        {
+            currentColumn %= numColumns;
+            currentRow %= numRows;
+
+            region = new TextureRegion(texture,
+                    initialXOffset + (currentColumn * (xSize + xOffset)) , initialYOffset + (currentRow * (ySize + yOffset)),
+                    xSize, ySize);
+            animation[i] = region;
+
+            currentColumn++;
+            currentRow += currentColumn >= numColumns ? 1 : 0;
+        }
+
+        animations.put(animationName, animation);
+    }
+
+    void LoadAnimations()
+    {
+        TextureRegion region;
+        Texture texture;
+
+        //Load Enemies
+        LoadAnimationFromFile("Enemies/Bat.png","BatAnimation", 3,2,60,60);
+
+        LoadAnimationFromFile("Enemies/Goblin.png","GoblinAnimationAttack", 1,6,95,95);
+        LoadAnimationFromFile("Enemies/Goblin.png","GoblinAnimationWalking", 1,6,95,95,0,100,0,0 );
+        LoadAnimationFromFile("Enemies/Goblin.png","GoblinAnimationDying", 1,6,95,95,0,190,0,0);
+
+        LoadAnimationFromFile("Enemies/Orc.png","OrcAnimationAttack", 1,6,95,95);
+        LoadAnimationFromFile("Enemies/Orc.png","OrcAnimationWalking", 1,6,95,95,0,95,0,0);
+        LoadAnimationFromFile("Enemies/Orc.png","OrcAnimationDying", 1,6,95,95,0,190,0,0);
+
+        LoadAnimationFromFile("Enemies/Shaman.png","ShamanAnimationWalking", 1,6,95,95);
+
+        //Load Guardians
+        LoadAnimationFromFile("Towers/Guards.png","GuardAnimationAttack", 1,6,95,95);
+        LoadAnimationFromFile("Towers/Guards.png","GuardAnimationWalking", 1,6,95,95,0,95,0,0);
+        LoadAnimationFromFile("Towers/Guards.png","GuardAnimationDying", 1,6,95,95,0,190,0,0);
     }
 
     void LoadTextures()
     {
         TextureRegion region;
-
-        //Load Maps
-        maps.put("Map1",new Texture(Gdx.files.internal("Maps/Map_01.png")));
-        maps.put("Map2",new Texture(Gdx.files.internal("Maps/Map_02.png")));
-        maps.put("Map2",new Texture(Gdx.files.internal("Maps/Map_03.png")));
-
 
         //Load BuildingPlace
         Texture texture = new Texture(Gdx.files.internal("Towers/BuildingPlace.png"));
@@ -132,25 +222,6 @@ public class AssetManager {
         region = new TextureRegion(texture,250,20,65,80);
         textures.put("clock4", region);
 
-        //Load Enemies
-        texture = new Texture(Gdx.files.internal("Enemies/Bat.png"));
-        region = new TextureRegion(texture, 0, 0, 60, 60);
-        textures.put("batEnemy",region);
-        texture = new Texture(Gdx.files.internal("Enemies/Goblin.png"));
-        region = new TextureRegion(texture, 25, 25, 50, 50);
-        textures.put("goblinEnemy",region);
-        texture = new Texture(Gdx.files.internal("Enemies/Orc.png"));
-        region = new TextureRegion(texture, 25, 25, 50, 50);
-        textures.put("orcEnemy",region);
-        texture = new Texture(Gdx.files.internal("Enemies/Shaman.png"));
-        region = new TextureRegion(texture, 0, 0, 90, 100);
-        textures.put("shamanEnemy",region);
-
-        //Load Guardians
-        texture = new Texture(Gdx.files.internal("Towers/Guards.png"));
-        region = new TextureRegion(texture, 15,15,75,60);
-        textures.put("guard", region);
-
         //Load GUI
         texture = new Texture(Gdx.files.internal("GUI/Life.png"));
         region = new TextureRegion(texture, 0,0,44,44);
@@ -172,8 +243,7 @@ public class AssetManager {
         region = new TextureRegion(texture, 20,4);
         textures.put("healthbar", region);
 
-
-
+        //Load Spells
 
     }
 }

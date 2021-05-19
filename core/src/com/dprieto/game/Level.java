@@ -65,7 +65,7 @@ public class Level {
     public void update(float delta)
     {
         //Update enemies
-        enemyPooler.update(delta);
+        //enemyPooler.update(delta);
 
         //Update towers
         for (GameObject go : towers)
