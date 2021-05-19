@@ -4,6 +4,7 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.input.GestureDetector;
 
@@ -33,8 +34,15 @@ public class TowerDefense extends ApplicationAdapter {
 		}
 		else if (Gdx.app.getType() == Application.ApplicationType.Desktop)
 		{
+
 			InputManagerDesktop desktopIm = new InputManagerDesktop(level);
 			Gdx.input.setInputProcessor(desktopIm);
+
+
+			Pixmap pm = new Pixmap(Gdx.files.internal("GUI/Cursor.png"));
+
+			Gdx.graphics.setCursor(Gdx.graphics.newCursor(pm,0,0));
+			pm.dispose();
 		}
 	}
 
