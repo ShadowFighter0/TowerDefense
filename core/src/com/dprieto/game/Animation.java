@@ -1,53 +1,73 @@
 package com.dprieto.game;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class Animation {
 
+    public String name;
     private TextureRegion[] sprites;
-    private float frameDuration = 0.1f;
+    private float frameDuration;
     private float currentFrameDuration = 0.0f;
     private int currentIndex = 0;
     private boolean paused = false;
+    private boolean loop;
+    private boolean ended;
 
-    public Animation(Constants.EnemyType type, String state)
+
+    public Animation(String name, TextureRegion[] sprites,  float frameDuration, boolean loop)
     {
-        Gdx.app.debug("", type.name() + "Animation" + state);
-        sprites = AssetManager.getInstance().getAnimation(type.name() + "Animation" + state);
-        frameDuration = Constants.getInstance().animations.get(type.name() + "Animation" + state);
+        this.name = name;
+        this.sprites = sprites;
+        this.frameDuration = frameDuration;
+        this.loop = loop;
     }
-    public Animation(String name, String state)
+
+    public Animation(Animation other)
     {
-        Gdx.app.debug("", name + "Animation" + state);
-        sprites = AssetManager.getInstance().getAnimation(name + "Animation" + state);
-        frameDuration = Constants.getInstance().animations.get(name + "Animation" + state);
+        name = other.name;
+        sprites = other.sprites;
+        frameDuration = other.frameDuration;
+        loop = other.loop;
     }
 
     public void play()
     {
         paused = false;
+        ended = false;
     }
 
     public void pause()
     {
         paused = true;
     }
+    public void stop()
+    {
+        paused = true;
+        currentIndex = 0;
+        ended = true;
+
+        currentFrameDuration = 0.0f;
+    }
 
     public void update(float dt)
     {
-        if(!paused)
+        if (!paused)
         {
             currentFrameDuration += dt;
 
-            if(currentFrameDuration >= frameDuration)
+            if (currentFrameDuration >= frameDuration)
             {
                 currentFrameDuration = 0;
                 currentIndex++;
 
-                if(currentIndex > sprites.length - 1)
+                if (currentIndex > sprites.length - 1)
                 {
                     currentIndex = 0;
+                    ended = true;
+                    if (!loop)
+                    {
+                        paused = true;
+                    }
                 }
             }
         }
@@ -61,5 +81,9 @@ public class Animation {
     public TextureRegion getCurrentSprite()
     {
         return sprites[currentIndex];
+    }
+    public boolean hasEnded()
+    {
+        return ended;
     }
 }

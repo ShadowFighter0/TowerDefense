@@ -39,9 +39,9 @@ public class Guard extends GameObject {
         setActive(false);
         this.tower = tower;
 
-        attackingAnimation = new Animation("guard","Attacking");
-        walkingAnimation = new Animation("guard","Walking");
-        dyingAnimation = new Animation("guard","Dying");
+        attackingAnimation = new Animation(AssetManager.instance.getAnimation("guardAnimationAttacking"));
+        walkingAnimation = new Animation(AssetManager.instance.getAnimation("guardAnimationWalking"));
+        dyingAnimation = new Animation(AssetManager.instance.getAnimation("guardAnimationDying"));
 
         setDimension(walkingAnimation.getSprite(0));
 
@@ -83,6 +83,7 @@ public class Guard extends GameObject {
 
         if (currentHealth <= 0)
         {
+            currentAnimation.stop();
             setActive(false);
 
             return true;
@@ -105,6 +106,9 @@ public class Guard extends GameObject {
                     {
                         if (currentReloadTime >= reloadTime)
                         {
+                            currentAnimation = attackingAnimation;
+                            currentAnimation.play();
+
                             enemyTarget.getDamage(damage);
                             currentReloadTime = 0;
                         }
@@ -126,6 +130,7 @@ public class Guard extends GameObject {
                 {
                     Vector2 movement =  patrolPosition.cpy().sub(this.position);
                     translate(movement.nor().scl(delta * speed));
+                    currentAnimation = walkingAnimation;
                 }
 
                 getEnemy();
@@ -161,6 +166,13 @@ public class Guard extends GameObject {
         {
             enemyTarget.setGuard(this);
         }
+    }
+
+    private void ChangeAnimation(Animation newAnimation)
+    {
+        currentAnimation.stop();
+        currentAnimation = newAnimation;
+        newAnimation.play();
     }
 
     @Override

@@ -86,9 +86,13 @@ public class Enemy extends GameObject{
             this.type = type;
             stats = Constants.getInstance().enemyStats.get(type);
 
-            attackingAnimation = new Animation(type,"Attacking");
-            walkingAnimation = new Animation(type,"Walking");
-            dyingAnimation = new Animation(type,"Dying");
+            walkingAnimation = new Animation(AssetManager.instance.getAnimation(type.name() +"AnimationWalking"));
+            if (type != Constants.EnemyType.batEnemy && type != Constants.EnemyType.shamanEnemy)
+            {
+                attackingAnimation = new Animation(AssetManager.instance.getAnimation(type.name() +"AnimationAttacking"));
+                dyingAnimation = new Animation(AssetManager.instance.getAnimation(type.name() +"AnimationDying"));
+            }
+
             setDimension(walkingAnimation.getSprite(0));
         }
 
