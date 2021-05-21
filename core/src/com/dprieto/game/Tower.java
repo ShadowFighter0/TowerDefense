@@ -70,7 +70,7 @@ public class Tower extends GameObject{
         }
     }
 
-        //BuildTower
+    //BuildTower
     public void build(Constants.TowerType option) {
 
         type = option;
@@ -105,9 +105,10 @@ public class Tower extends GameObject{
     }
 
 
-    //GUARDTOWER
+    //GUARDTOWER Update
     private void barrackTowerUpdate(float delta) {
 
+        //If there is no guard position assign one
         if (guardsPosition == null)
         {
             //A waypoint
@@ -118,6 +119,7 @@ public class Tower extends GameObject{
         {
             boolean someoneDead = false;
 
+            //call guards update
             for (Guard guard : guards)
             {
                 if (guard.isActive())
@@ -130,9 +132,10 @@ public class Tower extends GameObject{
                 }
             }
 
+            // Spawn dead guards
             if (someoneDead)
             {
-                if(currentReloadTime >= stats.reloadTime)
+                if (currentReloadTime >= stats.reloadTime)
                 {
                     for (Guard guard : guards)
                     {
@@ -142,7 +145,6 @@ public class Tower extends GameObject{
                         }
                     }
                     currentReloadTime = 0;
-                    someoneDead = false;
                 }
                 else
                 {
@@ -152,6 +154,7 @@ public class Tower extends GameObject{
         }
     }
 
+    //Set nearest Waypoint as patrol position
     private void getDefaultGuardPosition() {
 
         float distance = 1000;
@@ -168,6 +171,7 @@ public class Tower extends GameObject{
         setGuardsPosition();
     }
 
+    //Set guards the patrol position
     private void setGuardsPosition() {
 
         for (Guard guard : guards)
