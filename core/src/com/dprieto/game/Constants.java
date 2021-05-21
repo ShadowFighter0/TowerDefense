@@ -25,10 +25,6 @@ public class Constants {
 
     public enum EnemyType {batEnemy, goblinEnemy, orcEnemy, shamanEnemy}
 
-    public enum EnemyState {walking, attacking, dying}
-    public enum GuardState {walking, attacking, dying}
-
-
     public enum SellButtonOptions {acceptIcon, cancelIcon, sellIcon}
 
     //TODO upgrade Guard

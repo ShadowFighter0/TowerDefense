@@ -8,6 +8,24 @@ import java.util.ArrayList;
 
 public class Enemy extends GameObject{
 
+    //References
+    Level currentLevel;
+    Guard guard;
+
+    //State
+    enum State {walking, attacking, dead};
+    State currentState;
+
+    //Stats
+    Constants.EnemyType type;
+    EnemyStats stats;
+    int currentHealth;
+    float currentReloadTime;
+
+    //Variables
+    ArrayList<Vector2> waypoints;
+    int nextPoint;
+
     //Animations
     Animation attackingAnimation;
     Animation walkingAnimation;
@@ -18,67 +36,19 @@ public class Enemy extends GameObject{
     //Image
     TextureRegion healthbar;
 
-    //Variables
-    Constants.EnemyType type;
-    Constants.EnemyState currentState;
-    EnemyStats stats;
-    int currentHealth;
-    float currentReloadTime;
-
-    ArrayList<Vector2> waypoints;
-    int nextPoint;
-
-    //Level
-    Level currentLevel;
-    Guard guard;
-
-
     public Enemy(ArrayList<Vector2> waypoints, Level level) {
 
         setActive(false);
+
+        this.currentLevel = level;
+
         this.waypoints = waypoints;
         this.position = waypoints.get(0).cpy();
 
         healthbar = AssetManager.getInstance().getTexture("healthbar");
-
-        this.currentLevel = level;
     }
 
-    void moveToNextPoint(float delta) {
-
-        Vector2 movement =  waypoints.get(nextPoint).cpy().sub(this.position);
-        translate(movement.nor().scl(delta * stats.speed));
-    }
-
-    void moveToGuard(float delta) {
-
-        Vector2 movement =  guard.position.cpy().sub(this.position);
-        translate(movement.nor().scl(delta * stats.speed));
-    }
-
-    void checkNextPoint() {
-
-        if (position.dst(waypoints.get(nextPoint)) <= Constants.getInstance().ENEMY_DISTANCE_THRESHOLD)
-        {
-            if(nextPoint == waypoints.size()-1)
-            {
-                currentLevel.lives--;
-                returnToPool();
-            }
-            else
-            {
-                nextPoint++;
-            }
-        }
-    }
-
-    void returnToPool() {
-
-        setActive(false);
-        currentLevel.enemyPooler.pool.add(this);
-        currentLevel.enemyPooler.activeEnemies.remove(this);
-    }
-
+    //Set Enemy Type and get all the data needed
     public void setEnemy (Constants.EnemyType type) {
 
         if (this.type != type)
@@ -102,27 +72,74 @@ public class Enemy extends GameObject{
         nextPoint = 1;
         guard = null;
 
-        currentState = Constants.EnemyState.walking;
+        currentState = State.walking;
         currentAnimation = walkingAnimation;
         setActive(true);
     }
 
-    public void getDamage(int damage) {
+    // Move to next waypoint
+    void moveToNextPoint(float delta) {
 
-        currentHealth -= damage;
+        Vector2 movement =  waypoints.get(nextPoint).cpy().sub(this.position);
+        translate(movement.nor().scl(delta * stats.speed));
 
-        if(currentHealth <= 0)
+        if (position.dst(waypoints.get(nextPoint)) <= Constants.getInstance().ENEMY_DISTANCE_THRESHOLD)
         {
-            currentLevel.money += stats.money;
-            returnToPool();
+            if (nextPoint == waypoints.size()-1)
+            {
+                currentLevel.lives--;
+                returnToPool();
+            }
+            else
+            {
+                nextPoint++;
+            }
         }
     }
 
-    public void setGuard(Guard guard)
-    {
-        this.guard = guard;
+    // Move To Guard
+    void moveToGuard(float delta) {
+
+        Vector2 movement =  guard.position.cpy().sub(this.position);
+        translate(movement.nor().scl(delta * stats.speed));
     }
 
+    //return this enemy to the pool
+    void returnToPool() {
+
+        currentLevel.money += stats.money;
+        setActive(false);
+        currentLevel.enemyPooler.pool.add(this);
+        currentLevel.enemyPooler.activeEnemies.remove(this);
+    }
+
+    //return true if enemy is dead
+    public boolean getDamage(int damage) {
+
+        currentHealth -= damage;
+
+        if (currentHealth <= 0)
+        {
+            if (type == Constants.EnemyType.batEnemy || type == Constants.EnemyType.shamanEnemy)
+            {
+                returnToPool();
+
+                return true;
+            }
+            currentState = State.dead;
+            ChangeAnimation(dyingAnimation);
+            return true;
+        }
+        return false;
+    }
+
+    //If a guard has detected this enemy as objective set that guard as objective
+    public void setGuard(Guard guard){
+        this.guard = guard;
+        currentState = State.attacking;
+    }
+
+    //Get closest waypoint
     private void getWaypoint() {
 
         float distance = 1000;
@@ -138,14 +155,18 @@ public class Enemy extends GameObject{
         }
     }
 
+    //If guard is near, attack him
     private void attackGuard(float delta) {
+        //If guard is near
         if (position.dst(guard.position) <= Constants.ENEMY_DISTANCE_THRESHOLD)
         {
-            currentState = Constants.EnemyState.attacking;
+            currentState = State.attacking;
+            //and attack is available attack
             if (currentReloadTime >= stats.reloadTime)
             {
-
                 currentReloadTime = 0;
+
+                ChangeAnimation(attackingAnimation);
 
                 if (guard.getDamage(stats.damage))
                 {
@@ -154,6 +175,7 @@ public class Enemy extends GameObject{
                     getWaypoint();
                 }
             }
+            // reload attack
             else
             {
                 currentReloadTime += delta;
@@ -166,18 +188,42 @@ public class Enemy extends GameObject{
 
         if(isActive())
         {
-            if(guard == null)
+            switch (currentState)
             {
-                checkNextPoint();
-                moveToNextPoint(delta);
-            }
-            else
-            {
-                moveToGuard(delta);
-                attackGuard(delta);
+                //Move to next waypoint
+                case walking:
+                    moveToNextPoint(delta);
+                    break;
+
+                //Move to guard and attack him
+                case attacking:
+
+                    moveToGuard(delta);
+                    attackGuard(delta);
+
+                    break;
+
+                case dead:
+
+                    if (currentAnimation.hasEnded()) {
+                        returnToPool();
+                    }
+
+                break;
             }
 
-        currentAnimation.update(delta);
+            currentAnimation.update(delta);
+        }
+    }
+
+    //If given animation is different of actual, change to animation
+    private void ChangeAnimation (Animation newAnimation)
+    {
+        if (currentAnimation.name != newAnimation.name)
+        {
+            currentAnimation.stop();
+            currentAnimation = newAnimation;
+            newAnimation.play();
         }
     }
 

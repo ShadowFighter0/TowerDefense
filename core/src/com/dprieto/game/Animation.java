@@ -1,18 +1,21 @@
 package com.dprieto.game;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class Animation {
 
     public String name;
     private TextureRegion[] sprites;
+
     private float frameDuration;
     private float currentFrameDuration = 0.0f;
-    private int currentIndex = 0;
-    private boolean paused = false;
-    private boolean loop;
-    private boolean ended;
 
+    private int currentIndex = 0;
+
+    private boolean loop = false;
+    private boolean paused = false;
+    private boolean ended = false;
 
     public Animation(String name, TextureRegion[] sprites,  float frameDuration, boolean loop)
     {
@@ -63,10 +66,11 @@ public class Animation {
                 if (currentIndex > sprites.length - 1)
                 {
                     currentIndex = 0;
-                    ended = true;
+
                     if (!loop)
                     {
                         paused = true;
+                        ended = true;
                     }
                 }
             }
@@ -84,6 +88,7 @@ public class Animation {
     }
     public boolean hasEnded()
     {
+        Gdx.app.debug("Ended", "" + ended);
         return ended;
     }
 }

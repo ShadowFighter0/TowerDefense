@@ -124,18 +124,18 @@ public class AssetManager {
 
         LoadAnimationFromFile("Enemies/Goblin.png","goblinEnemyAnimationAttacking", 0.1f,false, 6,1,95,95);
         LoadAnimationFromFile("Enemies/Goblin.png","goblinEnemyAnimationWalking"  , 0.1f,true, 6,1,95,95,0,95,0,0);
-        LoadAnimationFromFile("Enemies/Goblin.png","goblinEnemyAnimationDying"    , 0.1f,true, 6,1,95,95,0,190,0,0);
+        LoadAnimationFromFile("Enemies/Goblin.png","goblinEnemyAnimationDying"    , 0.1f,false, 6,1,95,95,0,190,0,0);
 
         LoadAnimationFromFile("Enemies/Orc.png","orcEnemyAnimationAttacking",0.1f,false, 6,1,95,95);
         LoadAnimationFromFile("Enemies/Orc.png","orcEnemyAnimationWalking"  ,0.1f,true, 6,1,95,95,0,95,0,0);
-        LoadAnimationFromFile("Enemies/Orc.png","orcEnemyAnimationDying"    ,0.1f,true, 6,1,95,95,0,190,0,0);
+        LoadAnimationFromFile("Enemies/Orc.png","orcEnemyAnimationDying"    ,0.1f,false, 6,1,95,95,0,190,0,0);
 
         LoadAnimationFromFile("Enemies/Shaman.png","shamanEnemyAnimationWalking",0.1f, true, 6,1,95,95);
 
         //Load Guardians
         LoadAnimationFromFile("Towers/Guards.png","guardAnimationAttacking",0.1f, false, 6,1,95,95);
         LoadAnimationFromFile("Towers/Guards.png","guardAnimationWalking"  ,0.1f, true, 6,1,95,95,0,95,0,0);
-        LoadAnimationFromFile("Towers/Guards.png","guardAnimationDying"    ,0.1f, true, 6,1,95,95,0,190,0,0);
+        LoadAnimationFromFile("Towers/Guards.png","guardAnimationDying"    ,0.11f, false, 6,1,95,95,0,190,0,0);
     }
 
     void LoadTextures()

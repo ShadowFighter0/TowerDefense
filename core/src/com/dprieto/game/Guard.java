@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Guard extends GameObject {
 
+    //References
     Tower tower;
 
     //State
@@ -137,7 +138,7 @@ public class Guard extends GameObject {
 
                     //Walk and attack to an enemy
                     case attacking:
-
+                        //If we have an enemy
                         if (enemyTarget != null && enemyTarget.isActive())
                         {
                             //Moving to Enemy
@@ -152,11 +153,16 @@ public class Guard extends GameObject {
                                     //Attack available
                                     if (currentReloadTime >= reloadTime)
                                     {
-                                        currentAnimation = attackingAnimation;
-                                        currentAnimation.play();
-
-                                        enemyTarget.getDamage(damage);
                                         currentReloadTime = 0;
+                                        ChangeAnimation(attackingAnimation);
+
+                                        if (enemyTarget.getDamage(damage))
+                                        {
+                                            enemyTarget = null;
+
+                                            currentState = state.walking;
+                                        }
+
                                     }
                                     //Attack in reload
                                     else
@@ -230,7 +236,7 @@ public class Guard extends GameObject {
         {
             currentAnimation.stop();
             currentAnimation = newAnimation;
-            newAnimation.play();
+            currentAnimation.play();
         }
     }
 
