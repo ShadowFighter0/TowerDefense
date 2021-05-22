@@ -78,6 +78,7 @@ public class Level {
 
     public void render(SpriteBatch batch)
     {
+        //render map
         batch.draw(map,0,0);
 
         //Render towers
@@ -95,14 +96,20 @@ public class Level {
             }
         }
 
-        //Render enemies
-        enemyPooler.render(batch);
+        //Render Shoots
+        for (Tower tower : towers)
+        {
+            tower.renderShoot(batch);
+        }
 
         //Render selected Tower on order to have the radius image visible over the rest towers
         if(selectedOne != null)
         {
             selectedOne.render(batch);
         }
+
+        //Render enemies
+        enemyPooler.render(batch);
 
         //Building Ring
         BuildRing.getInstance().render(batch);

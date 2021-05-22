@@ -1,9 +1,7 @@
 package com.dprieto.game;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
@@ -11,11 +9,11 @@ import java.util.ArrayList;
 public class Tower extends GameObject{
 
     //Images
-    TextureRegion baseImage;
-    TextureRegion topImage;
+    TextureRegion baseTexture;
+    TextureRegion upTexture;
+
     TextureRegion rangeImage;
     TextureRegion shootImage;
-    ShapeRenderer shape;
 
     //Variables
     Constants.TowerType type;
@@ -43,26 +41,25 @@ public class Tower extends GameObject{
 
         type = Constants.TowerType.sign;
 
-        shape = new ShapeRenderer();
+        baseTexture = AssetManager.getInstance().getTexture(type.name() + "Base");
+        upTexture = AssetManager.getInstance().getTexture(type.name() + "Up");
 
-        baseImage = AssetManager.getInstance().getTexture("towerField");
-        topImage = AssetManager.getInstance().getTexture(type.name());
         rangeImage = AssetManager.getInstance().getTexture("attackRange");
 
-        dimension.x = baseImage.getRegionWidth();
-        dimension.y = baseImage.getRegionHeight();
+        setDimension(baseTexture);
 
+        //Create shoots
         shootsPool = new ArrayList<TowerShoot>();
         activeShoots = new ArrayList<TowerShoot>();
-
-        guards = new ArrayList<Guard>();
-
-        guardsPosition = null;
 
         for (int i = 0; i < Constants.TOWER_POOL_SIZE; i++)
         {
             shootsPool.add(new TowerShoot(this));
         }
+
+        //Create Guards
+        guards = new ArrayList<Guard>();
+        guardsPosition = null;
 
         for (int i = 0; i < 3; i++)
         {
@@ -73,9 +70,19 @@ public class Tower extends GameObject{
     //BuildTower
     public void build(Constants.TowerType option) {
 
+        //Set new type
         type = option;
-        topImage = AssetManager.getInstance().getTexture(type.name());
-        shootImage = AssetManager.getInstance().getTexture(type.name() + "Shoot");
+
+        //Get Textures
+        baseTexture = AssetManager.getInstance().getTexture(type.name()+"Base");
+        upTexture = AssetManager.getInstance().getTexture(type.name()+"Up");
+
+        if (option != Constants.TowerType.sign)
+            shootImage = AssetManager.getInstance().getTexture(type.name() + "Shoot");
+
+        setDimension(baseTexture);
+
+        //Get new Stats
         stats  = Constants.getInstance().towerStats.get(option);
 
         if (option != Constants.TowerType.barrackTower)
@@ -87,25 +94,26 @@ public class Tower extends GameObject{
         }
     }
 
-
     @Override
     public void update(float delta) {
 
-        if (type != Constants.TowerType.sign)
+        switch (type)
         {
-            if (type == Constants.TowerType.barrackTower)
-            {
+            case sign:
+                break;
+
+            case barrackTower:
                 barrackTowerUpdate(delta);
-            }
-            else
-            {
+                break;
+
+            default:
                 shootTowerUpdate(delta);
-            }
+                break;
         }
     }
 
-
-    //GUARDTOWER Update
+    //region Barrack
+    //Barrack Update
     private void barrackTowerUpdate(float delta) {
 
         //If there is no guard position assign one
@@ -179,9 +187,10 @@ public class Tower extends GameObject{
             guard.setGuardPosition(guardsPosition);
         }
     }
+    //endregion
 
-
-    //SHOOT TOWERS
+    //region ShootTowers
+    //shoot tower Update
     private void shootTowerUpdate(float delta){
 
         if (selectedEnemy != null && selectedEnemy.isActive())
@@ -237,22 +246,32 @@ public class Tower extends GameObject{
         selectedEnemy = null;
     }
 
+    //endregion
 
+    //Render towers
     @Override
     public void render(SpriteBatch batch) {
 
-        if (type == Constants.TowerType.sign)
+        if( type == Constants.TowerType.sign)
         {
-            batch.draw(baseImage,position.x - dimension.x/2,position.y - dimension.y/2);
+            batch.draw( baseTexture  ,position.x - dimension.x/2,position.y - dimension.y/2);       //Draw Ground
+        }
+        else
+        {
+            batch.draw( baseTexture  ,position.x - dimension.x/2,position.y - dimension.y/5);       //Draw Tower Base
         }
 
-        if (selected && type != Constants.TowerType.sign)
-        {
-            //TODO shapeRenderer for radius
-            batch.draw(rangeImage,position.x - stats.radius,position.y - stats.radius, stats.radius*2 ,stats.radius*2);
-        }
+        batch.draw( upTexture    ,position.x - dimension.x/2,position.y - dimension.y/5);       //Draw Shooter
+    }
 
-        batch.draw(topImage,position.x - topImage.getRegionWidth()/2,position.y - topImage.getRegionHeight()/5 );
+    //Render tower range
+    public void renderRange (SpriteBatch batch)
+    {
+        batch.draw(rangeImage,position.x - stats.radius,position.y - stats.radius, stats.radius*2 ,stats.radius*2);
+    }
+
+    //render shoots or guards
+    public void renderShoot(SpriteBatch batch) {
 
         if(type == Constants.TowerType.barrackTower)
         {
@@ -263,9 +282,9 @@ public class Tower extends GameObject{
         }
         else
         {
-            for(TowerShoot ts : activeShoots)
+            for(TowerShoot shoot : activeShoots)
             {
-                ts.render(batch);
+                shoot.render(batch);
             }
         }
     }

@@ -231,13 +231,11 @@ public class Enemy extends GameObject{
     }
 
     //If given animation is different of actual, change to animation
-    private void ChangeAnimation (Animation newAnimation)
-    {
+    private void ChangeAnimation (Animation newAnimation) {
 
         currentAnimation.stop();
         currentAnimation = newAnimation;
         newAnimation.play();
-
     }
 
     @Override

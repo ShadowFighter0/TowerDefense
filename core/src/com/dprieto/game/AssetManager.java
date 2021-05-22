@@ -133,9 +133,9 @@ public class AssetManager {
         LoadAnimationFromFile("Enemies/Shaman.png","shamanEnemyAnimationWalking",0.1f, true, 6,1,95,95);
 
         //Load Guardians
-        LoadAnimationFromFile("Towers/Guards.png","guardAnimationAttacking",0.1f, false, 6,1,95,95);
-        LoadAnimationFromFile("Towers/Guards.png","guardAnimationWalking"  ,0.1f, true, 6,1,95,95,0,95,0,0);
-        LoadAnimationFromFile("Towers/Guards.png","guardAnimationDying"    ,0.11f, false, 6,1,95,95,0,190,0,0);
+        LoadAnimationFromFile("Towers/Shoots/Guards.png","guardAnimationAttacking",0.1f, false, 6,1,95,95);
+        LoadAnimationFromFile("Towers/Shoots/Guards.png","guardAnimationWalking"  ,0.1f, true, 6,1,95,95,0,95,0,0);
+        LoadAnimationFromFile("Towers/Shoots/Guards.png","guardAnimationDying"    ,0.11f, false, 6,1,95,95,0,190,0,0);
     }
 
     void LoadTextures()
@@ -143,39 +143,54 @@ public class AssetManager {
         TextureRegion region;
 
         //Load BuildingPlace
-        Texture texture = new Texture(Gdx.files.internal("Towers/BuildingPlace.png"));
+        Texture texture = new Texture(Gdx.files.internal("Towers/Tower/BuildingPlace.png"));
         region = new TextureRegion(texture, 0, 0, 135, 90);
-        textures.put("sign",region);
+        textures.put("signUp",region);
         region = new TextureRegion(texture, 0, 90, 135, 90);
-        textures.put("towerField",region);
+        textures.put("signBase",region);
 
-        //Load Towers
-        texture = new Texture(Gdx.files.internal("Towers/Towers.png"));
-        region = new TextureRegion(texture, 15, 30, 90, 100);
-        textures.put("barrackTower",region);
-        region = new TextureRegion(texture, 15, 170, 90, 100);
-        textures.put("bowTower",region);
-        region = new TextureRegion(texture, 10, 310, 90, 100);
-        textures.put("crossbowTower",region);
-        region = new TextureRegion(texture, 20, 450, 90, 120);
-        textures.put("wizardTower",region);
-        region = new TextureRegion(texture, 15, 610, 100, 105);
-        textures.put("bombTower",region);
-
-        //Load Tower GUI
-        region = new TextureRegion(texture, 130, 60, 35, 25);
+        //Load Towers GUI
+        texture = new Texture(Gdx.files.internal("GUI/BuildingRing/TowersGUI.png"));
+        region = new TextureRegion(texture, 15, 30, 85, 90);
         textures.put("barrackTowerGUI",region);
-        region = new TextureRegion(texture, 125, 200, 35, 40);
+        region = new TextureRegion(texture, 20, 170, 75, 100);
         textures.put("bowTowerGUI",region);
-        region = new TextureRegion(texture, 120, 340, 45, 35);
+        region = new TextureRegion(texture, 10, 310, 90, 100);
         textures.put("crossbowTowerGUI",region);
-        region = new TextureRegion(texture, 125, 500, 40, 40);
+        region = new TextureRegion(texture, 15, 460, 85, 105);
         textures.put("wizardTowerGUI",region);
-        region = new TextureRegion(texture, 125, 640, 50, 40);
+        region = new TextureRegion(texture, 10, 610, 105, 105);
         textures.put("bombTowerGUI",region);
 
+
+        //Load Tower Base
+        texture = new Texture(Gdx.files.internal("Towers/Tower/TowersAnimation.png"));
+
+        region = new TextureRegion(texture, 0, 0, 144, 144);
+        textures.put("barrackTowerBase",region);
+        region = new TextureRegion(texture, 0, 144, 144, 144);
+        textures.put("bowTowerBase",region);
+        region = new TextureRegion(texture, 0, 288, 144, 144);
+        textures.put("crossbowTowerBase",region);
+        region = new TextureRegion(texture, 0, 432, 144, 144);
+        textures.put("wizardTowerBase",region);
+        region = new TextureRegion(texture, 0, 576, 144, 144);
+        textures.put("bombTowerBase",region);
+
+        //Load Tower Shooter
+        region = new TextureRegion(texture, 144, 0, 144, 144);
+        textures.put("barrackTowerUp",region);
+        region = new TextureRegion(texture, 144, 144, 144, 144);
+        textures.put("bowTowerUp",region);
+        region = new TextureRegion(texture, 144, 288, 144, 144);
+        textures.put("crossbowTowerUp",region);
+        region = new TextureRegion(texture, 144, 432, 144, 144);
+        textures.put("wizardTowerGUIUp",region);
+        region = new TextureRegion(texture, 144, 576, 144, 144);
+        textures.put("bombTowerGUIUp",region);
+
         //Load Bullets
-        texture = new Texture(Gdx.files.internal("Towers/Bullets.png"));
+        texture = new Texture(Gdx.files.internal("Towers/Shoots/Bullets.png"));
         region = new TextureRegion(texture,40,300,30,30);
         textures.put("wizardTowerShoot",region);
         region = new TextureRegion(texture,135,310,35,15);
@@ -186,12 +201,12 @@ public class AssetManager {
         textures.put("bombTowerShoot",region);
 
         //Load AttackRange
-        texture = new Texture(Gdx.files.internal("Towers/Attack_Range.png"));
+        texture = new Texture(Gdx.files.internal("Towers/Tower/Attack_Range.png"));
         region = new TextureRegion(texture,0,0,200,200);
         textures.put("attackRange",region);
 
         //Load Building Ring
-        texture = new Texture(Gdx.files.internal("GUI/Building_ring.png"));
+        texture = new Texture(Gdx.files.internal("GUI/BuildingRing/Building_ring.png"));
         region = new TextureRegion(texture, 110, 10, 75, 75);
         textures.put("buildRingSelector",region);
         region = new TextureRegion(texture,25,135,55,35);
@@ -202,7 +217,7 @@ public class AssetManager {
         textures.put("buildRing",region);
 
         //Load Sale Button
-        texture = new Texture(Gdx.files.internal("Towers/Sale_Button.png"));
+        texture = new Texture(Gdx.files.internal("GUI/BuildingRing/SaleButton.png"));
         region = new TextureRegion(texture,14,14,75,75);
         textures.put("saleContainer",region);
         region = new TextureRegion(texture,105,30,50,50);
@@ -213,7 +228,7 @@ public class AssetManager {
         textures.put("sellIcon",region);
 
         //Load Timer
-        texture = new Texture(Gdx.files.internal("GUI/Timer.png"));
+        texture = new Texture(Gdx.files.internal("GUI/InGame/Timer.png"));
         region = new TextureRegion(texture,95,120,125,120);
         textures.put("timerHolder",region);
         region = new TextureRegion(texture,5,20,65,80);
@@ -226,10 +241,11 @@ public class AssetManager {
         textures.put("clock4", region);
 
         //Load GUI
-        texture = new Texture(Gdx.files.internal("GUI/Life.png"));
+        texture = new Texture(Gdx.files.internal("GUI/InGame/Life.png"));
         region = new TextureRegion(texture, 0,0,44,44);
         textures.put("lifeIcon",region);
-        texture = new Texture(Gdx.files.internal("GUI/GameInterface.png"));
+
+        texture = new Texture(Gdx.files.internal("GUI/InGame/GameInterface.png"));
         region = new TextureRegion(texture,20,20,50,50);
         textures.put("pauseIcon",region);
         region = new TextureRegion(texture,20,20,50,50);

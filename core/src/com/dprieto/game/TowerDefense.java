@@ -39,7 +39,7 @@ public class TowerDefense extends ApplicationAdapter {
 			Gdx.input.setInputProcessor(desktopIm);
 
 
-			Pixmap pm = new Pixmap(Gdx.files.internal("GUI/Cursor.png"));
+			Pixmap pm = new Pixmap(Gdx.files.internal("GUI/InGame/Cursor.png"));
 
 			Gdx.graphics.setCursor(Gdx.graphics.newCursor(pm,0,0));
 			pm.dispose();

@@ -41,9 +41,9 @@ public class Constants {
         towerStats = new HashMap<TowerType, TowerStats>();
         towerStats.put(TowerType.barrackTower,new TowerStats(20,200,75,50,10,50,75, 1));
 
-        towerStats.put(TowerType.bowTower,new TowerStats(10,250,75,300,1));
-        towerStats.put(TowerType.crossbowTower,new TowerStats(60,200,100,200,3));
-        towerStats.put(TowerType.wizardTower,new TowerStats(20,200,120,250,2));
+        towerStats.put(TowerType.bowTower,new TowerStats(10,250,75,500,1));
+        towerStats.put(TowerType.crossbowTower,new TowerStats(60,200,100,350,3));
+        towerStats.put(TowerType.wizardTower,new TowerStats(20,200,120,400,2));
 
         towerStats.put(TowerType.bombTower,new TowerStats(50,200,150,300,5,75));
 

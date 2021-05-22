@@ -42,10 +42,12 @@ public class BuildOption extends GameObject{
     public void render(SpriteBatch batch)
     {
         batch.draw(baseImage,position.x + offset.x - baseImage.getRegionWidth()/2, position.y + offset.y - baseImage.getRegionHeight()/2);
-        batch.draw(optionImage,position.x + offset.x - optionImage.getRegionWidth()/2, position.y + offset.y - optionImage.getRegionHeight()/2);
+
+        batch.draw(optionImage,position.x + offset.x - optionImage.getRegionWidth()/4, position.y + offset.y - optionImage.getRegionHeight()/4,optionImage.getRegionWidth()/2 ,optionImage.getRegionHeight()/2);
+
         batch.draw(priceImage,position.x + offset.x - priceImage.getRegionWidth()/2, position.y + offset.y - 2 * priceImage.getRegionHeight());
 
-        if(BuildRing.getInstance().level.money >= price)
+        if (BuildRing.getInstance().level.money >= price)
         {
             BuildRing.getInstance().font.getData().setScale(0.60f);
             BuildRing.getInstance().font.draw(batch,"" + price, position.x + offset.x - priceImage.getRegionWidth()/4, position.y + offset.y -  priceImage.getRegionHeight());
