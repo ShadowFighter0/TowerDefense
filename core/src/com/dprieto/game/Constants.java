@@ -6,7 +6,7 @@ public class Constants {
 
     static Constants instance;
 
-    public static final float ENEMY_DISTANCE_THRESHOLD = 2;
+    public static final float ENEMY_DISTANCE_THRESHOLD = 5;
     public static final float TIME_TO_START_INITIAL_WAVE = 0;
     public static final int TOWER_POOL_SIZE = 10;
 
@@ -39,7 +39,7 @@ public class Constants {
     Constants()
     {
         towerStats = new HashMap<TowerType, TowerStats>();
-        towerStats.put(TowerType.barrackTower,new TowerStats(30,200,75,50,10,50,75, 1));
+        towerStats.put(TowerType.barrackTower,new TowerStats(20,200,75,50,10,50,75, 1));
 
         towerStats.put(TowerType.bowTower,new TowerStats(10,250,75,300,1));
         towerStats.put(TowerType.crossbowTower,new TowerStats(60,200,100,200,3));
@@ -49,10 +49,10 @@ public class Constants {
 
 
         enemyStats = new HashMap<EnemyType,EnemyStats>();
-        enemyStats.put(EnemyType.batEnemy,new EnemyStats(50,50,10,30,5));
-        enemyStats.put(EnemyType.orcEnemy,new EnemyStats(70,25,15,50,5));
-        enemyStats.put(EnemyType.shamanEnemy,new EnemyStats(100,20,20,50,5));
-        enemyStats.put(EnemyType.goblinEnemy,new EnemyStats(50,50,15,50,5));
+        enemyStats.put(EnemyType.batEnemy,new EnemyStats(50,50,10,30,0));
+        enemyStats.put(EnemyType.orcEnemy,new EnemyStats(70,25,15,50,1));
+        enemyStats.put(EnemyType.shamanEnemy,new EnemyStats(100,20,20,50,1));
+        enemyStats.put(EnemyType.goblinEnemy,new EnemyStats(50,50,15,50,1));
     }
 
     public static Constants getInstance()

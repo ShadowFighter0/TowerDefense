@@ -100,6 +100,7 @@ public class Guard extends GameObject {
             ChangeAnimation(dyingAnimation);
             return true;
         }
+
         return false;
     }
 
@@ -138,50 +139,7 @@ public class Guard extends GameObject {
 
                     //Walk and attack to an enemy
                     case attacking:
-                        //If we have an enemy
-                        if (enemyTarget != null && enemyTarget.isActive())
-                        {
-                            //Moving to Enemy
-                            if (patrolPosition.dst(enemyTarget.position) < radius)
-                            {
-                                Vector2 movement = enemyTarget.position.cpy().sub(this.position);
-                                translate(movement.nor().scl(delta * speed));
-
-                                //If is in range
-                                if (position.dst(enemyTarget.position) < Constants.ENEMY_DISTANCE_THRESHOLD)
-                                {
-                                    //Attack available
-                                    if (currentReloadTime >= reloadTime)
-                                    {
-                                        currentReloadTime = 0;
-                                        ChangeAnimation(attackingAnimation);
-
-                                        if (enemyTarget.getDamage(damage))
-                                        {
-                                            enemyTarget = null;
-
-                                            currentState = state.walking;
-                                        }
-
-                                    }
-                                    //Attack in reload
-                                    else
-                                    {
-                                        currentReloadTime += delta;
-                                    }
-                                }
-                            }
-                        }
-                        else
-                        {
-                            //Enemy Dead
-                            enemyTarget.guard = null;
-                            enemyTarget = null;
-
-                            //Change State
-                            currentState = state.walking;
-                            ChangeAnimation(walkingAnimation);
-                        }
+                        AttackEnemy(delta);
                         break;
 
                     case dead:
@@ -192,6 +150,54 @@ public class Guard extends GameObject {
                         break;
             }
             currentAnimation.update(delta);
+        }
+    }
+
+    private void AttackEnemy(float delta) {
+
+        //If we have an enemy
+        if (enemyTarget != null && enemyTarget.isActive())
+        {
+            //Moving to Enemy
+            if (patrolPosition.dst(enemyTarget.position) < radius)
+            {
+                Vector2 movement = enemyTarget.position.cpy().sub(this.position);
+                translate(movement.nor().scl(delta * speed));
+
+                //If is in range
+                if (position.dst(enemyTarget.position) < Constants.ENEMY_DISTANCE_THRESHOLD)
+                {
+                    //Attack available
+                    if (currentReloadTime >= reloadTime)
+                    {
+                        currentReloadTime = 0;
+                        ChangeAnimation(attackingAnimation);
+
+                        if (enemyTarget.getDamage(damage))
+                        {
+                            enemyTarget = null;
+
+                            currentState = state.walking;
+                        }
+
+                    }
+                    //Attack in reload
+                    else
+                    {
+                        currentReloadTime += delta;
+                    }
+                }
+            }
+        }
+        else
+        {
+            //Enemy Dead
+            enemyTarget.guard = null;
+            enemyTarget = null;
+
+            //Change State
+            currentState = state.walking;
+            ChangeAnimation(walkingAnimation);
         }
     }
 
@@ -206,15 +212,18 @@ public class Guard extends GameObject {
         //Search for nearest enemy
         for (int i = tower.currentLevel.enemyPooler.activeEnemies.size()-1 ; i >= 0; i--)
         {
-            newDistance = position.cpy().dst(tower.currentLevel.enemyPooler.activeEnemies.get(i).position.cpy());
-
-            if (newDistance < radius && newDistance < distance)
+            if (tower.currentLevel.enemyPooler.activeEnemies.get(i).type != Constants.EnemyType.batEnemy)
             {
-                //If the selected enemy has not guard assigned
-                if (tower.currentLevel.enemyPooler.activeEnemies.get(i).guard == null)
+                newDistance = position.cpy().dst(tower.currentLevel.enemyPooler.activeEnemies.get(i).position.cpy());
+
+                if (newDistance < radius && newDistance < distance)
                 {
-                    enemyTarget = tower.currentLevel.enemyPooler.activeEnemies.get(i);
-                    distance = newDistance;
+                    //If the selected enemy has not guard assigned
+                    if (tower.currentLevel.enemyPooler.activeEnemies.get(i).guard == null)
+                    {
+                        enemyTarget = tower.currentLevel.enemyPooler.activeEnemies.get(i);
+                        distance = newDistance;
+                    }
                 }
             }
         }
@@ -232,12 +241,9 @@ public class Guard extends GameObject {
     //If given animation is different of actual, change to animation
     private void ChangeAnimation (Animation newAnimation)
     {
-        if (currentAnimation.name != newAnimation.name)
-        {
-            currentAnimation.stop();
-            currentAnimation = newAnimation;
-            currentAnimation.play();
-        }
+        currentAnimation.stop();
+        currentAnimation = newAnimation;
+        currentAnimation.play();
     }
 
     @Override

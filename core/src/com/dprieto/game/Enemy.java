@@ -1,5 +1,6 @@
 package com.dprieto.game;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -97,13 +98,6 @@ public class Enemy extends GameObject{
         }
     }
 
-    // Move To Guard
-    void moveToGuard(float delta) {
-
-        Vector2 movement =  guard.position.cpy().sub(this.position);
-        translate(movement.nor().scl(delta * stats.speed));
-    }
-
     //return this enemy to the pool
     void returnToPool() {
 
@@ -128,6 +122,7 @@ public class Enemy extends GameObject{
             }
             currentState = State.dead;
             ChangeAnimation(dyingAnimation);
+
             return true;
         }
         return false;
@@ -135,6 +130,7 @@ public class Enemy extends GameObject{
 
     //If a guard has detected this enemy as objective set that guard as objective
     public void setGuard(Guard guard){
+
         this.guard = guard;
         currentState = State.attacking;
     }
@@ -157,29 +153,49 @@ public class Enemy extends GameObject{
 
     //If guard is near, attack him
     private void attackGuard(float delta) {
-        //If guard is near
-        if (position.dst(guard.position) <= Constants.ENEMY_DISTANCE_THRESHOLD)
+
+        if (guard != null && guard.isActive())
         {
-            currentState = State.attacking;
-            //and attack is available attack
-            if (currentReloadTime >= stats.reloadTime)
+            //Move to enemy
+            Vector2 movement = guard.position.cpy().sub(this.position);
+            translate(movement.nor().scl(delta * stats.speed));
+
+            //If guard is near
+            if (position.dst(guard.position) <= Constants.ENEMY_DISTANCE_THRESHOLD)
             {
-                currentReloadTime = 0;
-
-                ChangeAnimation(attackingAnimation);
-
-                if (guard.getDamage(stats.damage))
+                //and attack is available attack
+                if (currentReloadTime >= stats.reloadTime)
                 {
-                    guard = null;
+                    currentReloadTime = 0;
 
-                    getWaypoint();
+                    ChangeAnimation(attackingAnimation);
+
+                    if (guard.getDamage(stats.damage))
+                    {
+                        guard = null;
+                        getWaypoint();
+
+                        //Set state
+                        currentState = State.walking;
+                        ChangeAnimation(walkingAnimation);
+                    }
+                }
+                // reload attack
+                else
+                {
+                    currentReloadTime += delta;
                 }
             }
-            // reload attack
-            else
-            {
-                currentReloadTime += delta;
-            }
+
+        }
+        else
+        {
+            guard = null;
+            getWaypoint();
+
+            //Set state
+            currentState = State.walking;
+            ChangeAnimation(walkingAnimation);
         }
     }
 
@@ -198,13 +214,11 @@ public class Enemy extends GameObject{
                 //Move to guard and attack him
                 case attacking:
 
-                    moveToGuard(delta);
                     attackGuard(delta);
 
                     break;
 
                 case dead:
-
                     if (currentAnimation.hasEnded()) {
                         returnToPool();
                     }
@@ -219,12 +233,11 @@ public class Enemy extends GameObject{
     //If given animation is different of actual, change to animation
     private void ChangeAnimation (Animation newAnimation)
     {
-        if (currentAnimation.name != newAnimation.name)
-        {
-            currentAnimation.stop();
-            currentAnimation = newAnimation;
-            newAnimation.play();
-        }
+
+        currentAnimation.stop();
+        currentAnimation = newAnimation;
+        newAnimation.play();
+
     }
 
     @Override
