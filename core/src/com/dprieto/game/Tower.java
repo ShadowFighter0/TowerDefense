@@ -239,10 +239,22 @@ public class Tower extends GameObject{
 
         for (int i = currentLevel.enemyPooler.activeEnemies.size()-1; i >= 0; i--)
         {
-            if (position.cpy().dst(currentLevel.enemyPooler.activeEnemies.get(i).position.cpy()) < stats.radius)
+            boolean targetable = false;
+            //Search if the enemy is targeteable
+            for ( int j = 0; !targetable && j < stats.enemyTypes.length; j++)
             {
-                selectedEnemy = currentLevel.enemyPooler.activeEnemies.get(i);
-                return;
+                if (currentLevel.enemyPooler.activeEnemies.get(i).type == stats.enemyTypes[j])
+                {
+                    targetable = true;
+                }
+            }
+            if (targetable)
+            {
+                if (position.cpy().dst(currentLevel.enemyPooler.activeEnemies.get(i).position.cpy()) < stats.radius)
+                {
+                    selectedEnemy = currentLevel.enemyPooler.activeEnemies.get(i);
+                    return;
+                }
             }
         }
 
@@ -278,7 +290,8 @@ public class Tower extends GameObject{
     //Render tower range
     public void renderRange (SpriteBatch batch)
     {
-        batch.draw(rangeImage,position.x - stats.radius,position.y - stats.radius, stats.radius*2 ,stats.radius*2);
+        if (type != Constants.TowerType.sign)
+            batch.draw(rangeImage,position.x - stats.radius,position.y - stats.radius, stats.radius*2 ,stats.radius*2);
     }
 
     //render shoots or guards

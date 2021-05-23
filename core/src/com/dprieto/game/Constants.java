@@ -38,16 +38,25 @@ public class Constants {
 
     Constants()
     {
+        //TowerStats
         towerStats = new HashMap<TowerType, TowerStats>();
-        towerStats.put(TowerType.barrackTower,new TowerStats(20,200,75,50,10,50,75, 1));
+        EnemyType[] bowEnemies = {EnemyType.batEnemy, EnemyType.goblinEnemy, EnemyType.orcEnemy, EnemyType.shamanEnemy};
+        towerStats.put(TowerType.bowTower,new TowerStats(10,250,75,500,1,bowEnemies));
 
-        towerStats.put(TowerType.bowTower,new TowerStats(10,250,75,500,1));
-        towerStats.put(TowerType.crossbowTower,new TowerStats(60,200,100,350,3));
-        towerStats.put(TowerType.wizardTower,new TowerStats(20,200,120,400,2));
+        EnemyType[] crossbowEnemies = {EnemyType.batEnemy, EnemyType.goblinEnemy, EnemyType.orcEnemy, EnemyType.shamanEnemy};
+        towerStats.put(TowerType.crossbowTower,new TowerStats(60,200,100,350,3,crossbowEnemies));
 
-        towerStats.put(TowerType.bombTower,new TowerStats(50,200,150,300,5,75));
+        EnemyType[] wizardEnemies = {EnemyType.batEnemy, EnemyType.goblinEnemy, EnemyType.orcEnemy};
+        towerStats.put(TowerType.wizardTower,new TowerStats(20,200,120,400,2,wizardEnemies));
+
+        EnemyType[] bombEnemies = {EnemyType.goblinEnemy, EnemyType.orcEnemy, EnemyType.shamanEnemy};
+        towerStats.put(TowerType.bombTower,new TowerStats(50,200,150,300,5,75, bombEnemies));
+
+        EnemyType[] barrackEnemies = {EnemyType.goblinEnemy, EnemyType.orcEnemy};
+        towerStats.put(TowerType.barrackTower,new TowerStats(20,200,75,50,10, barrackEnemies,50,75, 1 ));
 
 
+        //EnemyStats
         enemyStats = new HashMap<EnemyType,EnemyStats>();
         enemyStats.put(EnemyType.batEnemy,new EnemyStats(50,50,10,30,0));
         enemyStats.put(EnemyType.orcEnemy,new EnemyStats(70,25,15,50,1));

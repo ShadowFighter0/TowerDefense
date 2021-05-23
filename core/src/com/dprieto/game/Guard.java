@@ -29,6 +29,8 @@ public class Guard extends GameObject {
     Vector2 patrolPosition;
     Enemy enemyTarget;
 
+    Constants.EnemyType[] enemyTypes;
+
     //Animations
     Animation attackingAnimation;
     Animation walkingAnimation;
@@ -45,6 +47,8 @@ public class Guard extends GameObject {
         setActive(false);
 
         this.tower = tower;
+
+        this.enemyTypes = Constants.getInstance().towerStats.get(Constants.TowerType.barrackTower).enemyTypes;
 
         attackingAnimation = new Animation(AssetManager.instance.getAnimation("guardAnimationAttacking"));
         walkingAnimation = new Animation(AssetManager.instance.getAnimation("guardAnimationWalking"));
@@ -67,7 +71,7 @@ public class Guard extends GameObject {
         damage = tower.stats.damage;
         speed = tower.stats.shootSpeed;
         reloadTime = tower.stats.barrackSoldierReloadTime;
-        currentReloadTime = reloadTime * 0.75f;
+        currentReloadTime = tower.stats.barrackSoldierReloadTime;
         radius = tower.stats.barrackSoldierRadius;
 
         currentAnimation = walkingAnimation;
@@ -176,8 +180,11 @@ public class Guard extends GameObject {
                         if (enemyTarget.getDamage(damage))
                         {
                             enemyTarget = null;
+                            //Set reloaded in order to change animation when both enter combat
+                            currentReloadTime = tower.stats.reloadTime;
 
                             currentState = state.walking;
+                            ChangeAnimation(walkingAnimation);
                         }
 
                     }
@@ -188,16 +195,6 @@ public class Guard extends GameObject {
                     }
                 }
             }
-        }
-        else
-        {
-            //Enemy Dead
-            enemyTarget.guard = null;
-            enemyTarget = null;
-
-            //Change State
-            currentState = state.walking;
-            ChangeAnimation(walkingAnimation);
         }
     }
 
@@ -212,7 +209,15 @@ public class Guard extends GameObject {
         //Search for nearest enemy
         for (int i = tower.currentLevel.enemyPooler.activeEnemies.size()-1 ; i >= 0; i--)
         {
-            if (tower.currentLevel.enemyPooler.activeEnemies.get(i).type != Constants.EnemyType.batEnemy)
+            boolean targetable = false;
+            for ( int j = 0; !targetable && j < enemyTypes.length; j++)
+            {
+                if (tower.currentLevel.enemyPooler.activeEnemies.get(i).type == enemyTypes[j])
+                {
+                    targetable = true;
+                }
+            }
+            if (targetable)
             {
                 newDistance = position.cpy().dst(tower.currentLevel.enemyPooler.activeEnemies.get(i).position.cpy());
 

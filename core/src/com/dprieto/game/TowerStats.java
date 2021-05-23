@@ -8,22 +8,25 @@ public class TowerStats {
     public int reloadTime; //secs
     public float shootSpeed;
 
+    public Constants.EnemyType[] enemyTypes;
+
     public int bombDamageRadius;
 
     public int barrackSoldiersHealth;
     public int barrackSoldierRadius;
     public int barrackSoldierReloadTime;
 
-    //TODO type of enemy(aereo/ground)
-    public String type;
-
-    public TowerStats (int damage, int radius, int price, float shootSpeed, int shootTime)
+    //Normal Towers
+    public TowerStats (int damage, int radius, int price, float shootSpeed, int shootTime, Constants.EnemyType[] types)
     {
         this.damage = damage;
         this.radius = radius;
         this.price = price;
         this.reloadTime = shootTime;
         this.shootSpeed = shootSpeed;
+        this.enemyTypes = types;
+
+
         bombDamageRadius = 0;
 
         barrackSoldiersHealth = 0;
@@ -31,24 +34,29 @@ public class TowerStats {
         barrackSoldierReloadTime = 0;
     }
 
-    public TowerStats (int damage, int radius, int price, float shootSpeed, int shootTime, int bombDamageRadius)
+    //Bomb Tower
+    public TowerStats (int damage, int radius, int price, float shootSpeed, int shootTime, int bombDamageRadius, Constants.EnemyType[] types)
     {
         this.damage = damage;
         this.radius = radius;
         this.price = price;
         this.reloadTime = shootTime;
         this.shootSpeed = shootSpeed;
+        this.enemyTypes = types;
 
         this.bombDamageRadius = bombDamageRadius;
     }
 
-    public TowerStats (int damage, int radius, int price, float shootSpeed, int shootTime, int barrackSoldiersHealth, int barrackSoldierRadius, int barrackSoldierReloadTime) {
+    //Barrack Tower
+    public TowerStats (int damage, int radius, int price, float shootSpeed, int shootTime,Constants.EnemyType[] types,
+                       int barrackSoldiersHealth, int barrackSoldierRadius, int barrackSoldierReloadTime) {
 
         this.damage = damage;
         this.radius = radius;
         this.price = price;
         this.reloadTime = shootTime;
         this.shootSpeed = shootSpeed;
+        this.enemyTypes = types;
 
         this.barrackSoldiersHealth = barrackSoldiersHealth;
         this.barrackSoldierRadius = barrackSoldierRadius;

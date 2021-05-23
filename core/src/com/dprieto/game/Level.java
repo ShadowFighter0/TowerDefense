@@ -105,6 +105,7 @@ public class Level {
         //Render selected Tower on order to have the radius image visible over the rest towers
         if(selectedOne != null)
         {
+            selectedOne.renderRange(batch);
             selectedOne.render(batch);
         }
 

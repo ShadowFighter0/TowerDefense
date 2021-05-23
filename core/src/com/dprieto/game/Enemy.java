@@ -68,6 +68,7 @@ public class Enemy extends GameObject{
         }
 
         currentHealth = stats.health;
+        currentReloadTime = stats.reloadTime;
 
         position = waypoints.get(0).cpy();
         nextPoint = 1;
@@ -173,11 +174,10 @@ public class Enemy extends GameObject{
                     if (guard.getDamage(stats.damage))
                     {
                         guard = null;
+                        //Set reloaded in order to change animation when both enter combat
+                        currentReloadTime = stats.reloadTime;
+                        
                         getWaypoint();
-
-                        //Set state
-                        currentState = State.walking;
-                        ChangeAnimation(walkingAnimation);
                     }
                 }
                 // reload attack

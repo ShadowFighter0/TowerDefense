@@ -66,35 +66,40 @@ public class LevelFactory {
                 ArrayList<WaveOrder> wave = new ArrayList<WaveOrder>();
 
                 //Wave1
-                //wave.add(new WaveOrder(Constants.EnemyType.batEnemy,1));
-                //wave.add(new WaveOrder(Constants.EnemyType.batEnemy,1));
-                //wave.add(new WaveOrder(Constants.EnemyType.batEnemy,1));
-                //wave.add(new WaveOrder(Constants.EnemyType.batEnemy,1));
-                //wave.add(new WaveOrder(Constants.EnemyType.batEnemy,1));
-                //wave.add(new WaveOrder(Constants.EnemyType.batEnemy,1));
-                //wave.add(new WaveOrder(Constants.EnemyType.batEnemy,1));
-                //wave.add(new WaveOrder(Constants.EnemyType.batEnemy,1));
-                //levelWaves.add(new Wave(wave,20));
-                ////Wave2
-                //wave = new ArrayList<WaveOrder>();
-                //wave.add(new WaveOrder(Constants.EnemyType.batEnemy,1));
-                //wave.add(new WaveOrder(Constants.EnemyType.batEnemy,1));
-                //levelWaves.add(new Wave(wave,20));
-                ////Wave3
                 wave = new ArrayList<WaveOrder>();
                 wave.add(new WaveOrder(Constants.EnemyType.orcEnemy,1));
                 wave.add(new WaveOrder(Constants.EnemyType.orcEnemy,1));
                 levelWaves.add(new Wave(wave,20));
+
+                //Wave 2
+                wave = new ArrayList<WaveOrder>();
+                wave.add(new WaveOrder(Constants.EnemyType.batEnemy,1));
+                wave.add(new WaveOrder(Constants.EnemyType.batEnemy,1));
+                wave.add(new WaveOrder(Constants.EnemyType.batEnemy,1));
+                wave.add(new WaveOrder(Constants.EnemyType.batEnemy,1));
+                wave.add(new WaveOrder(Constants.EnemyType.batEnemy,1));
+                wave.add(new WaveOrder(Constants.EnemyType.batEnemy,1));
+                wave.add(new WaveOrder(Constants.EnemyType.batEnemy,1));
+                wave.add(new WaveOrder(Constants.EnemyType.batEnemy,1));
+                levelWaves.add(new Wave(wave,20));
+
+                //Wave3
+                wave = new ArrayList<WaveOrder>();
+                wave.add(new WaveOrder(Constants.EnemyType.batEnemy,1));
+                wave.add(new WaveOrder(Constants.EnemyType.batEnemy,1));
+                levelWaves.add(new Wave(wave,20));
+
                 ////Wave4
                 wave = new ArrayList<WaveOrder>();
                 wave.add(new WaveOrder(Constants.EnemyType.goblinEnemy,1));
                 wave.add(new WaveOrder(Constants.EnemyType.goblinEnemy,1));
                 levelWaves.add(new Wave(wave,20));
-                ////Wave5
-                //wave = new ArrayList<WaveOrder>();
-                //wave.add(new WaveOrder(Constants.EnemyType.shamanEnemy,1));
-                //wave.add(new WaveOrder(Constants.EnemyType.shamanEnemy,1));
-                //levelWaves.add(new Wave(wave,20));
+
+                //Wave5
+                wave = new ArrayList<WaveOrder>();
+                wave.add(new WaveOrder(Constants.EnemyType.shamanEnemy,1));
+                wave.add(new WaveOrder(Constants.EnemyType.shamanEnemy,1));
+                levelWaves.add(new Wave(wave,20));
 
 
                 return new Level(
