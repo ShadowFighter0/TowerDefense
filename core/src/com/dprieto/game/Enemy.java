@@ -112,7 +112,7 @@ public class Enemy extends GameObject{
 
         currentHealth -= damage;
 
-        if (currentHealth <= 0)
+        if (currentHealth <= 0 && currentState != State.dead)
         {
             if (type == Constants.EnemyType.batEnemy || type == Constants.EnemyType.shamanEnemy)
             {

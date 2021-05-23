@@ -17,7 +17,7 @@ public class Animation {
     private boolean paused = false;
     private boolean ended = false;
 
-    public Animation(String name, TextureRegion[] sprites,  float frameDuration, boolean loop)
+    public Animation (String name, TextureRegion[] sprites,  float frameDuration, boolean loop)
     {
         this.name = name;
         this.sprites = sprites;
@@ -25,7 +25,7 @@ public class Animation {
         this.loop = loop;
     }
 
-    public Animation(Animation other)
+    public Animation (Animation other)
     {
         name = other.name;
         sprites = other.sprites;
@@ -35,6 +35,7 @@ public class Animation {
 
     public void play()
     {
+        currentIndex = 0;
         paused = false;
         ended = false;
     }
@@ -60,18 +61,22 @@ public class Animation {
 
             if (currentFrameDuration >= frameDuration)
             {
-                currentFrameDuration = 0;
-                currentIndex++;
-
-                if (currentIndex > sprites.length - 1)
+                if (currentIndex == sprites.length - 1)
                 {
-                    currentIndex = 0;
-
-                    if (!loop)
+                    if (loop)
+                    {
+                        currentIndex = 0;
+                    }
+                    else
                     {
                         paused = true;
                         ended = true;
                     }
+                }
+                else
+                {
+                    currentFrameDuration = 0;
+                    currentIndex++;
                 }
             }
         }
@@ -88,7 +93,6 @@ public class Animation {
     }
     public boolean hasEnded()
     {
-        Gdx.app.debug("Ended", "" + ended);
         return ended;
     }
 }
