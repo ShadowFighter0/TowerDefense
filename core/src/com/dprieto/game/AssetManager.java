@@ -185,9 +185,9 @@ public class AssetManager {
         region = new TextureRegion(texture, 144, 288, 144, 144);
         textures.put("crossbowTowerUp",region);
         region = new TextureRegion(texture, 144, 432, 144, 144);
-        textures.put("wizardTowerGUIUp",region);
+        textures.put("wizardTowerUp",region);
         region = new TextureRegion(texture, 144, 576, 144, 144);
-        textures.put("bombTowerGUIUp",region);
+        textures.put("bombTowerUp",region);
 
         //Load Bullets
         texture = new Texture(Gdx.files.internal("Towers/Shoots/Bullets.png"));

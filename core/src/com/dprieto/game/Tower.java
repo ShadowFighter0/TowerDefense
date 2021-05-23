@@ -19,6 +19,7 @@ public class Tower extends GameObject{
     Constants.TowerType type;
     TowerStats stats;
     float currentReloadTime;
+    boolean flip;
 
     //Pools
     ArrayList<TowerShoot> shootsPool;
@@ -195,6 +196,8 @@ public class Tower extends GameObject{
 
         if (selectedEnemy != null && selectedEnemy.isActive())
         {
+            flip = position.x > selectedEnemy.position.x ? true : false;
+
             if (currentReloadTime >= stats.reloadTime)
             {
                 shoot();
@@ -255,13 +258,21 @@ public class Tower extends GameObject{
         if( type == Constants.TowerType.sign)
         {
             batch.draw( baseTexture  ,position.x - dimension.x/2,position.y - dimension.y/2);       //Draw Ground
+            batch.draw( upTexture    ,position.x - dimension.x/2,position.y - dimension.y/5);       //Draw sing
         }
         else
         {
             batch.draw( baseTexture  ,position.x - dimension.x/2,position.y - dimension.y/5);       //Draw Tower Base
-        }
 
-        batch.draw( upTexture    ,position.x - dimension.x/2,position.y - dimension.y/5);       //Draw Shooter
+            if (flip)
+            {
+                batch.draw( upTexture, position.x + dimension.x/2,position.y - dimension.y/5, -dimension.x, dimension.y);       //Draw ShooterFliped
+            }
+            else
+            {
+                batch.draw( upTexture, position.x - dimension.x/2,position.y - dimension.y/5, dimension.x, dimension.y);       //Draw Shooter
+            }
+        }
     }
 
     //Render tower range
