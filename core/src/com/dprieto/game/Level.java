@@ -82,13 +82,14 @@ public class Level {
         //guiElements.add(new HUDText("roundIcon",,font));
 
         buttonElements = new ArrayList<HUDButton>();
+
         buttonElements.add(new HUDButton("pauseButtonIcon",
-                new Vector2(guiCamera.position.x - guiCamera.currentWidth/2 + 50,guiCamera.position.y + guiCamera.currentHeight/2 - 50),
-                HUDButton.ButtonType.Pause));
+                new Vector2(50,-50), HUDElement.Anchor.UpperLeft,
+                HUDButton.ButtonType.Pause, guiCamera));
 
         buttonElements.add(new HUDButton("playButtonIcon",
-                new Vector2(guiCamera.position.x - guiCamera.currentWidth/2 + 125,guiCamera.position.y + guiCamera.currentHeight/2 - 50 ),
-                HUDButton.ButtonType.Play));
+                new Vector2(150,-50 ), HUDElement.Anchor.UpperLeft,
+                HUDButton.ButtonType.Play, guiCamera));
     }
 
     public void update(float delta)
@@ -103,6 +104,7 @@ public class Level {
         }
 
         worldCamera.update();
+        guiCamera.update();
     }
 
     public void render(SpriteBatch batch)

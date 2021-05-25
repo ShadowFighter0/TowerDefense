@@ -9,8 +9,8 @@ public class HUDText extends HUDElement{
     BitmapFont font;
     String text;
 
-    public HUDText(String imageName, Vector2 position, BitmapFont font) {
-        super(imageName, position);
+    public HUDText(String imageName, Vector2 position, Anchor anchor, BitmapFont font, Camera camera) {
+        super(imageName, position, anchor, camera);
         this.font = font;
     }
 
@@ -20,8 +20,8 @@ public class HUDText extends HUDElement{
 
         font.draw(batch,
                 "" + text,
-                position.x - dimension.x/2 ,
-                position.y - dimension.y/2);
+                currentPosition.x -  dimension.x/2 ,
+                currentPosition.y - dimension.y/2);
     }
 
     public void setText(String text)

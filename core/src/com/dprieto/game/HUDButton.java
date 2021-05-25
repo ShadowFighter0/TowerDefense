@@ -10,8 +10,8 @@ public class HUDButton extends HUDElement{
     ButtonType type;
 
 
-    public HUDButton(String imageName, Vector2 position, ButtonType buttonType) {
-        super(imageName, position);
+    public HUDButton(String imageName, Vector2 position, Anchor anchor, ButtonType buttonType, Camera camera) {
+        super(imageName, position, anchor, camera);
 
         this.type = buttonType;
     }
@@ -19,12 +19,12 @@ public class HUDButton extends HUDElement{
     @Override
     public void render(SpriteBatch batch) {
         super.render(batch);
-    }
+   }
 
     public boolean checkClicked(Vector2 point)
     {
-        if (point.x > position.x - dimension.x/2 && point.x < position.x + dimension.x/2
-                && point.y > position.y - dimension.y/2 && point.y < position.y + dimension.y/2)
+        if (point.x > currentPosition.x - dimension.x/2 && point.x < currentPosition.x + dimension.x/2
+                && point.y > currentPosition.y - dimension.y/2 && point.y < currentPosition.y + dimension.y/2)
         {
             OnClicked();
             return true;
