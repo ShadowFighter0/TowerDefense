@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector3;
 public class InputManagerDesktop implements InputProcessor {
 
     private Level level;
+
     Vector2 point;
     boolean isDragging;
     Vector2 screenPoint;
@@ -36,7 +37,7 @@ public class InputManagerDesktop implements InputProcessor {
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button)
     {
-        Vector3 pos = level.cameraHelper.camera.unproject(new Vector3(screenX,screenY,0));
+        Vector3 pos = level.guiCamera.camera.unproject(new Vector3(screenX,screenY,0));
 
         screenPoint.x = screenX;
         screenPoint.y = screenY;
@@ -44,14 +45,41 @@ public class InputManagerDesktop implements InputProcessor {
         point.x = pos.x;
         point.y = pos.y;
 
+        if (!GuiCamera())
+        {
+            pos = level.worldCamera.camera.unproject(new Vector3(screenX,screenY,0));
+
+            point.x = pos.x;
+            point.y = pos.y;
+
+            WorldCamera();
+        }
+
+        return false;
+    }
+    private boolean GuiCamera()
+    {
         boolean clicked = false;
 
+        for (HUDButton button : level.buttonElements ) {
+
+            clicked = button.checkClicked(point);
+        }
+
+        return  clicked;
+    }
+
+    private void WorldCamera() {
+
+        boolean clicked = false;
+
+
         //Check WaveTimer
-        if(level.enemyPooler.waveTimer.isActive())
+        if (level.enemyPooler.waveTimer.isActive())
         {
             clicked = level.enemyPooler.waveTimer.checkClicked(point);
         }
-        if(!clicked)
+        if (!clicked)
         {
             //Check Options
             if (BuildRing.getInstance().isActive())
@@ -69,8 +97,6 @@ public class InputManagerDesktop implements InputProcessor {
                 BuildRing.getInstance().turnOff();
             }
         }
-        return false;
-
     }
 
     private boolean checkTowers(boolean clicked) {
@@ -146,7 +172,7 @@ public class InputManagerDesktop implements InputProcessor {
             float cameraMovementX = screenX - screenPoint.x;
             float cameraMovementY = screenY - screenPoint.y;
 
-            level.cameraHelper.moveCamera(- cameraMovementX, cameraMovementY);
+            level.worldCamera.moveCamera(- cameraMovementX, cameraMovementY);
             screenPoint.x = screenX;
             screenPoint.y = screenY;
         }
@@ -161,7 +187,7 @@ public class InputManagerDesktop implements InputProcessor {
     @Override
     public boolean scrolled(float amountX, float amountY) {
 
-        level.cameraHelper.changeZoom(amountY);
+        level.worldCamera.changeZoom(amountY);
 
         return false;
     }

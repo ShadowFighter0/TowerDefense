@@ -1,0 +1,97 @@
+package com.dprieto.game;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
+
+public class HUDButton extends HUDElement{
+
+    enum ButtonType {Play, Pause, MainMenu, Restart, Resume}
+    ButtonType type;
+
+
+    public HUDButton(String imageName, Vector2 position, ButtonType buttonType) {
+        super(imageName, position);
+
+        this.type = buttonType;
+    }
+
+    @Override
+    public void render(SpriteBatch batch) {
+        super.render(batch);
+    }
+
+    public boolean checkClicked(Vector2 point)
+    {
+        if (point.x > position.x - dimension.x/2 && point.x < position.x + dimension.x/2
+                && point.y > position.y - dimension.y/2 && point.y < position.y + dimension.y/2)
+        {
+            OnClicked();
+            return true;
+        }
+        else
+        {
+            OnNotClicked();
+        }
+        return false;
+    }
+
+    public void OnClicked(){
+        switch (type)
+        {
+            case Play:
+
+                PlayButton();
+
+                break;
+            case Pause:
+
+                PauseButton();
+
+                break;
+            case Resume:
+
+                ResumeButton();
+
+                break;
+            case Restart:
+
+                RestartButton();
+
+                break;
+            case MainMenu:
+                MainMenuButton();
+
+                break;
+        }
+    }
+
+    public void OnNotClicked(){
+
+    }
+
+    void PlayButton ()
+    {
+        Gdx.app.debug("Button", "Play");
+    }
+
+    void PauseButton()
+    {
+        Gdx.app.debug("Button", "Pause");
+    }
+
+    void ResumeButton()
+    {
+
+    }
+
+    void RestartButton()
+    {
+
+    }
+
+    void MainMenuButton()
+    {
+
+    }
+}

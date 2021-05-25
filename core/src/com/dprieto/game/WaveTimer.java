@@ -1,11 +1,8 @@
 package com.dprieto.game;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
-
-import java.util.Set;
 
 public class WaveTimer extends GameObject{
     //Images
@@ -19,7 +16,7 @@ public class WaveTimer extends GameObject{
     EnemyPooler enemyPooler;
 
     //Camera
-    CameraHelper camera;
+    Camera camera;
 
     //Margin
     float scale = 0;
@@ -37,7 +34,7 @@ public class WaveTimer extends GameObject{
 
         this.enemyPooler = enemyPooler;
 
-        camera = enemyPooler.currentLevel.cameraHelper;
+        camera = enemyPooler.currentLevel.worldCamera;
         setActive(false);
     }
 

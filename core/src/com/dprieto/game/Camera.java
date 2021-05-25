@@ -5,13 +5,15 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 
-public class CameraHelper {
+public class Camera {
 
     OrthographicCamera camera;
 
     Vector2 position;
     Vector2 target;
     boolean isGoingToTarget;
+
+    int treshold = 500;
 
     float worldWidth;
     float worldHeight;
@@ -30,7 +32,7 @@ public class CameraHelper {
     float maxZoom = 1;
     float minZoom = 0.40f;
 
-    CameraHelper(float worldWidth, float worldHeight)
+    Camera(float worldWidth, float worldHeight)
     {
         this.worldWidth = worldWidth;
         this.worldHeight = worldHeight;
@@ -94,12 +96,12 @@ public class CameraHelper {
 
     public void resize(int newWidth, int newHeight)
     {
-        if(newHeight > newWidth) //if more height than width adjust width
+        if (newWidth - (viewportWidth - viewportHeight) < newHeight ) //if more height than width adjust width
         {
-            width = (viewportHeight / newHeight)*newWidth;
+            width = (viewportHeight / newHeight) * newWidth;
             height = viewportHeight;
         }
-        else //If more width than height adjust the height
+        else //else more width than height adjust the height
         {
             height = (viewportWidth / newWidth) * newHeight;
             width = viewportWidth;
@@ -110,5 +112,7 @@ public class CameraHelper {
 
         camera.viewportWidth = width;
         camera.viewportHeight = height;
+
+        camera.update();
     }
 }

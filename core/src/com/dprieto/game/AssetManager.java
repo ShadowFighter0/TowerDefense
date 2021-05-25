@@ -247,15 +247,17 @@ public class AssetManager {
 
         texture = new Texture(Gdx.files.internal("GUI/InGame/GameInterface.png"));
         region = new TextureRegion(texture,20,20,50,50);
-        textures.put("pauseIcon",region);
-        region = new TextureRegion(texture,20,20,50,50);
-        textures.put("pauseIcon",region);
+        textures.put("pauseButtonIcon",region);
         region = new TextureRegion(texture,95,20,40,50);
-        textures.put("playIcon",region);
-        region = new TextureRegion(texture,155,20,140,30);
+        textures.put("playButtonIcon",region);
+        region = new TextureRegion(texture,155,20,135,30);
         textures.put("pauseTextIcon",region);
+        region = new TextureRegion(texture,310,15,335,75);
+        textures.put("barGUI",region);
         region = new TextureRegion(texture,665,35,30,35);
         textures.put("coinIcon",region);
+        region = new TextureRegion(texture,715,35,45,40);
+        textures.put("roundIcon",region);
 
         //Load HealthBar
         texture = new Texture(Gdx.files.internal("Enemies/Healthbar.png"));

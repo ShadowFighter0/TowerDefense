@@ -1,6 +1,7 @@
 package com.dprieto.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -12,23 +13,27 @@ import java.util.ArrayList;
 
 public class Level {
 
-    CameraHelper cameraHelper;
+    //Cameras
+    Camera worldCamera;
+    Camera guiCamera;
+
+    //Pooler
     EnemyPooler enemyPooler;
 
+    //GUI
     Texture map;
-    TextureRegion coinImage;
-    TextureRegion lifeImage;
+    ArrayList<HUDElement> guiElements;
+    ArrayList<HUDButton> buttonElements;
     BitmapFont font;
 
+    //Array
     ArrayList<Vector2> path;
     ArrayList<Tower> towers;
 
+    //Variable
     int money;
     int lives;
     boolean gamePaused;
-
-    //Display https://github.com/libgdx/libgdx/wiki/Gdx-freetype
-
 
     public Level(Texture map, ArrayList<Vector2> path, ArrayList<Vector2> buildingPlaces, int initialMoney, int initialLives, ArrayList<Wave> waves)
     {
@@ -36,14 +41,11 @@ public class Level {
         BuildRing.getInstance().level = this;
 
         //Camera stuff
-        cameraHelper = new CameraHelper(map.getWidth(),map.getHeight());
+        worldCamera = new Camera(map.getWidth(),map.getHeight());
+        guiCamera = new Camera(map.getWidth(),map.getHeight());
 
-        font = new BitmapFont(Gdx.files.internal("Fonts/Font.fnt"));
-        font.setColor(Color.BLACK);
-
-        //LoadImages
-        lifeImage = AssetManager.getInstance().getTexture("lifeIcon");
-        coinImage  = AssetManager.getInstance().getTexture("coinIcon");
+        //Create GUI
+        CreateGUI();
 
         this.map = map;
         this.gamePaused = false;
@@ -62,6 +64,33 @@ public class Level {
         enemyPooler = new EnemyPooler(this,20,path, waves);
     }
 
+    public void CreateGUI()
+    {
+        font = new BitmapFont(Gdx.files.internal("Fonts/Font.fnt"));
+        font.setColor(Color.BLACK);
+
+        guiElements = new ArrayList<HUDElement>();
+        //guiElements.add(new HUDElement("barGUI",
+        //        new Vector2(guiCamera.position.x + guiCamera.width/2 - 50, guiCamera.position.y + guiCamera.height/2 - 50)));
+
+        //guiElements.add(new HUDElement("pauseTextIcon",
+        //        new Vector2(guiCamera.position.x + )));
+
+        //guiElements.add(new HUDText("coinIcon",
+        //        ,font));
+
+        //guiElements.add(new HUDText("roundIcon",,font));
+
+        buttonElements = new ArrayList<HUDButton>();
+        buttonElements.add(new HUDButton("pauseButtonIcon",
+                new Vector2(guiCamera.position.x - guiCamera.currentWidth/2 + 50,guiCamera.position.y + guiCamera.currentHeight/2 - 50),
+                HUDButton.ButtonType.Pause));
+
+        buttonElements.add(new HUDButton("playButtonIcon",
+                new Vector2(guiCamera.position.x - guiCamera.currentWidth/2 + 125,guiCamera.position.y + guiCamera.currentHeight/2 - 50 ),
+                HUDButton.ButtonType.Play));
+    }
+
     public void update(float delta)
     {
         //Update enemies
@@ -73,10 +102,31 @@ public class Level {
             go.update(delta);
         }
 
-        cameraHelper.update();
+        worldCamera.update();
     }
 
     public void render(SpriteBatch batch)
+    {
+        batch.setProjectionMatrix(worldCamera.camera.combined);
+
+        batch.begin();
+
+        renderWorld(batch);
+
+        batch.end();
+
+
+        batch.setProjectionMatrix(guiCamera.camera.combined);
+
+        batch.begin();
+
+        renderGUI(batch);
+
+        batch.end();
+    }
+
+
+    void renderWorld (SpriteBatch batch)
     {
         //render map
         batch.draw(map,0,0);
@@ -84,6 +134,7 @@ public class Level {
         //Render towers
         Tower selectedOne = null;
 
+        //Render Towers
         for (Tower go : towers)
         {
             if(go.selected)
@@ -111,30 +162,23 @@ public class Level {
 
         //Render enemies
         enemyPooler.render(batch);
+        enemyPooler.waveTimer.render(batch);
 
         //Building Ring
         BuildRing.getInstance().render(batch);
+    }
 
+    void renderGUI(SpriteBatch batch)
+    {
         //GUI
-        enemyPooler.waveTimer.render(batch);
-        for(int i = 0 ; i < lives; i++)
+
+        for (HUDElement hudElement: guiElements)
         {
-
-            batch.draw(lifeImage,
-                    cameraHelper.position.x - (lifeImage.getRegionWidth()*cameraHelper.currentZoom) + (i * (lifeImage.getRegionWidth() * cameraHelper.currentZoom)),
-                    cameraHelper.position.y + cameraHelper.currentHeight/2 - (lifeImage.getRegionHeight()*cameraHelper.currentZoom),
-                    lifeImage.getRegionWidth() * cameraHelper.currentZoom,lifeImage.getRegionHeight() * cameraHelper.currentZoom);
+            hudElement.render(batch);
         }
-        //TODO scale with zoom
-        batch.draw(coinImage,
-                cameraHelper.position.x + (cameraHelper.currentWidth/2) - (100*cameraHelper.currentZoom) + ((coinImage.getRegionWidth()/2)*cameraHelper.currentZoom),
-                cameraHelper.position.y + (cameraHelper.currentHeight/2) - (100*cameraHelper.currentZoom) + ((coinImage.getRegionHeight()/2) * cameraHelper.currentZoom),
-                coinImage.getRegionWidth()*cameraHelper.currentZoom, coinImage.getRegionHeight()*cameraHelper.currentZoom);
-
-        font.getData().setScale(cameraHelper.currentZoom);
-        font.draw(batch,
-                "" + money,
-                cameraHelper.position.x + cameraHelper.currentWidth/2 - (100 * cameraHelper.currentZoom),
-                cameraHelper.position.y + (cameraHelper.currentHeight/2));
+        for (HUDElement hudElement: buttonElements)
+        {
+            hudElement.render(batch);
+        }
     }
 }

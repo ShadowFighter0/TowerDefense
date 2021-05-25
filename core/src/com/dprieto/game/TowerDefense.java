@@ -56,12 +56,7 @@ public class TowerDefense extends ApplicationAdapter {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-		batch.setProjectionMatrix(level.cameraHelper.camera.combined);
-		batch.begin();
-
 		level.render(batch);
-
-		batch.end();
 	}
 
 	void Update(float delta)
@@ -72,7 +67,8 @@ public class TowerDefense extends ApplicationAdapter {
 	@Override
 	public void resize(int width, int height)
 	{
-		level.cameraHelper.resize(width,height);;
+		level.worldCamera.resize(width,height);
+		level.guiCamera.resize(width,height);
 	}
 
 	@Override

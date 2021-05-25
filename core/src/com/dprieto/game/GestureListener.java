@@ -1,6 +1,5 @@
 package com.dprieto.game;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -21,7 +20,7 @@ public class GestureListener implements GestureDetector.GestureListener {
 
     @Override
     public boolean touchDown(float x, float y, int pointer, int button) {
-        Vector3 pos = level.cameraHelper.camera.unproject(new Vector3(x,y,0));
+        Vector3 pos = level.worldCamera.camera.unproject(new Vector3(x,y,0));
 
         screenPoint.x = x;
         screenPoint.y = y;
@@ -134,7 +133,7 @@ public class GestureListener implements GestureDetector.GestureListener {
         float cameraMovementX = x - screenPoint.x;
         float cameraMovementY = y - screenPoint.y;
 
-        level.cameraHelper.moveCamera(- cameraMovementX * Constants.PAN_MOBILE_SENSITIVITY, cameraMovementY * Constants.PAN_MOBILE_SENSITIVITY);
+        level.worldCamera.moveCamera(- cameraMovementX * Constants.PAN_MOBILE_SENSITIVITY, cameraMovementY * Constants.PAN_MOBILE_SENSITIVITY);
         screenPoint.x = x;
         screenPoint.y = y;
         return false;
@@ -150,8 +149,8 @@ public class GestureListener implements GestureDetector.GestureListener {
     public boolean zoom(float initialDistance, float distance) {
 
         float changeDistance = initialDistance - distance;
-        changeDistance *= Constants.ZOOM_MOBILE_SENSITIVITY * level.cameraHelper.currentZoom;
-        level.cameraHelper.changeZoom(changeDistance);
+        changeDistance *= Constants.ZOOM_MOBILE_SENSITIVITY * level.worldCamera.currentZoom;
+        level.worldCamera.changeZoom(changeDistance);
         return false;
     }
 
