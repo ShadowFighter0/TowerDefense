@@ -13,19 +13,22 @@ public class HUDElement {
     Anchor myAnchor;
     Vector2 anchorPos;
 
+    String name;
     TextureRegion image;
 
     Vector2 offsetPosition;
     Vector2 currentPosition;
     Vector2 dimension;
 
+
+
     Camera camera;
+    boolean isActive;
 
     public HUDElement(String imageName, Vector2 position, Anchor anchor, Camera camera)
     {
+        this.name = imageName;
         this.image = AssetManager.instance.getTexture(imageName);
-
-        Gdx.app.debug("Texture", image.toString());
 
         this.offsetPosition = position;
         this.currentPosition = position.cpy();
@@ -38,6 +41,27 @@ public class HUDElement {
         dimension.y = image.getRegionHeight();
         
         this.camera = camera;
+    }
+    public HUDElement(String imageName, Vector2 position, Vector2 dimensionMultiplier, Anchor anchor, Camera camera)
+    {
+        this.name = imageName;
+        this.image = AssetManager.instance.getTexture(imageName);
+
+        this.offsetPosition = position;
+        this.currentPosition = position.cpy();
+        this.myAnchor = anchor;
+
+        anchorPos = new Vector2();
+
+        dimension = new Vector2();
+        dimension.x = image.getRegionWidth() * dimensionMultiplier.x;
+        dimension.y = image.getRegionHeight() * dimensionMultiplier.y;
+
+        this.camera = camera;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 
     public void render (SpriteBatch batch)

@@ -20,8 +20,8 @@ public class HUDText extends HUDElement{
 
         font.draw(batch,
                 "" + text,
-                currentPosition.x -  dimension.x/2 ,
-                currentPosition.y - dimension.y/2);
+                currentPosition.x +  dimension.x ,
+                currentPosition.y + 2 * dimension.y / 3);
     }
 
     public void setText(String text)

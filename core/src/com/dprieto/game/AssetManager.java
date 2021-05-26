@@ -242,7 +242,7 @@ public class AssetManager {
 
         //Load GUI
         texture = new Texture(Gdx.files.internal("GUI/InGame/Life.png"));
-        region = new TextureRegion(texture, 0,0,44,44);
+        region = new TextureRegion(texture, 4,4,40,40);
         textures.put("lifeIcon",region);
 
         texture = new Texture(Gdx.files.internal("GUI/InGame/GameInterface.png"));
@@ -254,7 +254,7 @@ public class AssetManager {
         textures.put("pauseTextIcon",region);
         region = new TextureRegion(texture,310,15,335,75);
         textures.put("barGUI",region);
-        region = new TextureRegion(texture,665,35,30,35);
+        region = new TextureRegion(texture,665,35,30,40);
         textures.put("coinIcon",region);
         region = new TextureRegion(texture,715,35,45,40);
         textures.put("roundIcon",region);

@@ -22,7 +22,12 @@ public class Level {
 
     //GUI
     Texture map;
-    ArrayList<HUDElement> guiElements;
+    ArrayList<HUDElement> guiImages;
+
+    HUDText lifeText;
+    HUDText coinText;
+    HUDText roundText;
+
     ArrayList<HUDButton> buttonElements;
     BitmapFont font;
 
@@ -69,17 +74,20 @@ public class Level {
         font = new BitmapFont(Gdx.files.internal("Fonts/Font.fnt"));
         font.setColor(Color.BLACK);
 
-        guiElements = new ArrayList<HUDElement>();
-        //guiElements.add(new HUDElement("barGUI",
-        //        new Vector2(guiCamera.position.x + guiCamera.width/2 - 50, guiCamera.position.y + guiCamera.height/2 - 50)));
+        guiImages = new ArrayList<HUDElement>();
+        guiImages.add(new HUDElement("barGUI", new Vector2(-260,-50),new Vector2(1.5f,1f),
+                HUDElement.Anchor.UpperRight,guiCamera));
 
-        //guiElements.add(new HUDElement("pauseTextIcon",
-        //        new Vector2(guiCamera.position.x + )));
 
-        //guiElements.add(new HUDText("coinIcon",
-        //        ,font));
+        lifeText = new HUDText("lifeIcon",new Vector2(-460,-50),
+                HUDElement.Anchor.UpperRight, font, guiCamera);
 
-        //guiElements.add(new HUDText("roundIcon",,font));
+        coinText = new HUDText("coinIcon",new Vector2(-330,-50),
+                        HUDElement.Anchor.UpperRight, font, guiCamera);
+
+        roundText = new HUDText("roundIcon",new Vector2(-200,-50),
+                HUDElement.Anchor.UpperRight, font, guiCamera);
+
 
         buttonElements = new ArrayList<HUDButton>();
 
@@ -172,12 +180,20 @@ public class Level {
 
     void renderGUI(SpriteBatch batch)
     {
-        //GUI
 
-        for (HUDElement hudElement: guiElements)
+        for (HUDElement hudElement: guiImages)
         {
             hudElement.render(batch);
         }
+
+        lifeText.setText(""+lives);
+        coinText.setText("" + money);
+        roundText.setText(enemyPooler.currentWaveIndex + " of " + enemyPooler.waves.size());
+
+        lifeText.render(batch);
+        coinText.render(batch);
+        roundText.render(batch);
+
         for (HUDElement hudElement: buttonElements)
         {
             hudElement.render(batch);
