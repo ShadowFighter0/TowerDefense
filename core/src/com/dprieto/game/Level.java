@@ -119,11 +119,6 @@ public class Level {
                 gamestate = GameState.Loose;
                 winDefeatMenu.SetActive(true, WinDefeatMenu.ButtonMode.Loose);
             }
-            else if (lives > 0 && enemyPooler.waves.size() == enemyPooler.currentWaveIndex)
-            {
-                gamestate = GameState.Win;
-                winDefeatMenu.SetActive(true, WinDefeatMenu.ButtonMode.Win);
-            }
             else
             {
                 //Update enemies
@@ -135,6 +130,10 @@ public class Level {
                     go.update(delta);
                 }
             }
+        }
+        else if (gamestate == GameState.Win)
+        {
+            winDefeatMenu.SetActive(true, WinDefeatMenu.ButtonMode.Win);
         }
 
         worldCamera.update();

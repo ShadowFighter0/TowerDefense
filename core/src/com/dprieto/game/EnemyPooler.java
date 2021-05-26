@@ -139,8 +139,7 @@ public class EnemyPooler {
             {
                 if (activeEnemies.size() == 0)
                 {
-                    //This is the end :c
-                    Gdx.app.debug("END", "No more waves, gg");
+                    currentLevel.SetGameState(Level.GameState.Win);
                 }
             }
         }
