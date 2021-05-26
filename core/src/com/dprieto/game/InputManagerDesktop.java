@@ -63,6 +63,8 @@ public class InputManagerDesktop implements InputProcessor {
         boolean newClick = false;
         boolean clicked = false;
 
+        clicked = level.winDefeatMenu.CheckClicks(point);
+
         for (HUDButton button : level.buttonElements ) {
 
             newClick = button.checkClicked(point);

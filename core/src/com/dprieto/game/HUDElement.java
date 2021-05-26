@@ -1,14 +1,12 @@
 package com.dprieto.game;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
 
 public class HUDElement {
 
-    enum Anchor {UpperLeft, UpperRight}
+    enum Anchor {UpperLeft, UpperRight, MiddleScreen}
 
     Anchor myAnchor;
     Vector2 anchorPos;
@@ -39,7 +37,10 @@ public class HUDElement {
         dimension.y = image.getRegionHeight();
         
         this.camera = camera;
+        isActive = true;
+
     }
+
     public HUDElement(String imageName, Vector2 position, Vector2 dimensionMultiplier, Anchor anchor, Camera camera)
     {
         this.name = imageName;
@@ -56,11 +57,14 @@ public class HUDElement {
         dimension.y = image.getRegionHeight() * dimensionMultiplier.y;
 
         this.camera = camera;
+        isActive = true;
     }
 
     public void setActive(boolean active) {
         isActive = active;
     }
+    public void SetPosition(Vector2 newPositions) {offsetPosition = newPositions;}
+    public void SetPosition(float x, float y) {offsetPosition.x = x; offsetPosition.y = y;}
 
     public void render (SpriteBatch batch)
     {
@@ -74,6 +78,10 @@ public class HUDElement {
             case UpperRight:
                 anchorPos.x = camera.position.x + camera.currentWidth/2;
                 anchorPos.y = camera.position.y + camera.currentHeight/2;
+                break;
+            case MiddleScreen:
+                anchorPos.x = camera.position.x;
+                anchorPos.y = camera.position.y;
                 break;
         }
 

@@ -284,14 +284,14 @@ public class AssetManager {
         textures.put("StageCompletedText",region);
 
         //StageDefeat
-        texture = new Texture(Gdx.files.internal("GUI/Menu/Options.png"));
+        texture = new Texture(Gdx.files.internal("GUI/Menu/StageDefeat.png"));
         region = new TextureRegion(texture,5,0,1060,640);
         textures.put("StageDefeatBackground",region);
         region = new TextureRegion(texture,0,700,580,180);
         textures.put("StageDefeatText",region);
 
         //Options
-        texture = new Texture(Gdx.files.internal("GUI/Menu/StageDefeat.png"));
+        texture = new Texture(Gdx.files.internal("GUI/Menu/Options.png"));
         region = new TextureRegion(texture,0,40,670,630);
         textures.put("OptionsBackground",region);
         region = new TextureRegion(texture,690,190,120,90);

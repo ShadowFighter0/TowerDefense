@@ -23,7 +23,7 @@ public class Level {
     //GUI
     Texture map;
     ArrayList<HUDElement> guiImages;
-
+    WinDefeatMenu winDefeatMenu;
     HUDText lifeText;
     HUDText coinText;
     HUDText roundText;
@@ -36,9 +36,11 @@ public class Level {
     ArrayList<Tower> towers;
 
     //Variable
+    enum GameState {Playing, Pause, Win, Loose}
+    GameState gamestate;
+
     int money;
     int lives;
-    boolean gamePaused;
 
     public Level(Texture map, ArrayList<Vector2> path, ArrayList<Vector2> buildingPlaces, int initialMoney, int initialLives, ArrayList<Wave> waves)
     {
@@ -51,9 +53,10 @@ public class Level {
 
         //Create GUI
         CreateGUI();
+        winDefeatMenu = new WinDefeatMenu(this, guiCamera);
 
+        //Variables
         this.map = map;
-        this.gamePaused = false;
         this.money = initialMoney;
         this.path = path;
         this.lives = initialLives;
@@ -65,8 +68,12 @@ public class Level {
         {
             towers.add(new Tower(buildingPlaces.get(i),this));
         }
+
         //Create Enemies
         enemyPooler = new EnemyPooler(this,20,path, waves);
+
+        //GameState
+        gamestate = GameState.Playing;
     }
 
     void CreateGUI()
@@ -93,46 +100,43 @@ public class Level {
 
         buttonElements.add(new HUDButton("pauseButtonIcon",
                 new Vector2(50,-50), HUDElement.Anchor.UpperLeft,
-                HUDButton.ButtonType.Pause, guiCamera));
+                HUDButton.ButtonType.Pause, this, guiCamera));
 
         buttonElements.add(new HUDButton("playButtonIcon",
                 new Vector2(150,-50 ), HUDElement.Anchor.UpperLeft,
-                HUDButton.ButtonType.Play, guiCamera));
+                HUDButton.ButtonType.Play, this, guiCamera));
     }
 
-    void CreatePauseMenu()
-    {
 
-    }
-
-    void CreateDefeatMenu()
-    {
-
-    }
-
-    void CreateWinMenu()
-    {
-
-    }
-
+    public void SetGameState(GameState newMode) {gamestate = newMode;}
 
     public void update(float delta)
     {
-        if (lives == 0)
+        if (gamestate == GameState.Playing)
         {
-
-        }
-        else
-        {
-            //Update enemies
-            enemyPooler.update(delta);
-
-            //Update towers
-            for (GameObject go : towers)
+            if (lives == 0)
             {
-                go.update(delta);
+                gamestate = GameState.Loose;
+                winDefeatMenu.SetActive(true, WinDefeatMenu.ButtonMode.Loose);
+            }
+            else if (lives > 0 && enemyPooler.waves.size() == enemyPooler.currentWaveIndex)
+            {
+                gamestate = GameState.Win;
+                winDefeatMenu.SetActive(true, WinDefeatMenu.ButtonMode.Win);
+            }
+            else
+            {
+                //Update enemies
+                enemyPooler.update(delta);
+
+                //Update towers
+                for (GameObject go : towers)
+                {
+                    go.update(delta);
+                }
             }
         }
+
         worldCamera.update();
         guiCamera.update();
     }
@@ -153,6 +157,7 @@ public class Level {
         batch.begin();
 
         renderGUI(batch);
+        winDefeatMenu.render(batch);
 
         batch.end();
     }
@@ -219,20 +224,5 @@ public class Level {
         {
             hudElement.render(batch);
         }
-    }
-
-    void renderPauseMenu(SpriteBatch batch)
-    {
-
-    }
-
-    void renderDefeatMenu(SpriteBatch batch)
-    {
-
-    }
-
-    void renderWinMenu(SpriteBatch batch)
-    {
-
     }
 }
