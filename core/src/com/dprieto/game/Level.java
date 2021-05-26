@@ -69,7 +69,7 @@ public class Level {
         enemyPooler = new EnemyPooler(this,20,path, waves);
     }
 
-    public void CreateGUI()
+    void CreateGUI()
     {
         font = new BitmapFont(Gdx.files.internal("Fonts/Font.fnt"));
         font.setColor(Color.BLACK);
@@ -100,17 +100,39 @@ public class Level {
                 HUDButton.ButtonType.Play, guiCamera));
     }
 
+    void CreatePauseMenu()
+    {
+
+    }
+
+    void CreateDefeatMenu()
+    {
+
+    }
+
+    void CreateWinMenu()
+    {
+
+    }
+
+
     public void update(float delta)
     {
-        //Update enemies
-        enemyPooler.update(delta);
-
-        //Update towers
-        for (GameObject go : towers)
+        if (lives == 0)
         {
-            go.update(delta);
-        }
 
+        }
+        else
+        {
+            //Update enemies
+            enemyPooler.update(delta);
+
+            //Update towers
+            for (GameObject go : towers)
+            {
+                go.update(delta);
+            }
+        }
         worldCamera.update();
         guiCamera.update();
     }
@@ -180,13 +202,12 @@ public class Level {
 
     void renderGUI(SpriteBatch batch)
     {
-
         for (HUDElement hudElement: guiImages)
         {
             hudElement.render(batch);
         }
 
-        lifeText.setText(""+lives);
+        lifeText.setText("" + lives);
         coinText.setText("" + money);
         roundText.setText(enemyPooler.currentWaveIndex + " of " + enemyPooler.waves.size());
 
@@ -198,5 +219,20 @@ public class Level {
         {
             hudElement.render(batch);
         }
+    }
+
+    void renderPauseMenu(SpriteBatch batch)
+    {
+
+    }
+
+    void renderDefeatMenu(SpriteBatch batch)
+    {
+
+    }
+
+    void renderWinMenu(SpriteBatch batch)
+    {
+
     }
 }

@@ -57,22 +57,28 @@ public class InputManagerDesktop implements InputProcessor {
 
         return false;
     }
+
     private boolean GuiCamera()
     {
+        boolean newClick = false;
         boolean clicked = false;
 
         for (HUDButton button : level.buttonElements ) {
 
-            clicked = button.checkClicked(point);
+            newClick = button.checkClicked(point);
+
+            if(!clicked)
+            {
+                clicked = newClick;
+            }
         }
 
-        return  clicked;
+        return clicked;
     }
 
     private void WorldCamera() {
 
         boolean clicked = false;
-
 
         //Check WaveTimer
         if (level.enemyPooler.waveTimer.isActive())

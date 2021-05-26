@@ -259,6 +259,48 @@ public class AssetManager {
         region = new TextureRegion(texture,715,35,45,40);
         textures.put("roundIcon",region);
 
+        //Load Menus
+
+        //StageCompleted
+        texture = new Texture(Gdx.files.internal("GUI/Menu/StageCompleted.png"));
+        region = new TextureRegion(texture,0,0,660,640);
+        textures.put("StageCompletedBackground",region);
+
+        region = new TextureRegion(texture,690,25,110,125);
+        textures.put("StageCompletedStar1",region);
+        region = new TextureRegion(texture,685,165,130,135);
+        textures.put("StageCompletedStar2",region);
+        region = new TextureRegion(texture,690,320,110,120);
+        textures.put("StageCompletedStar3",region);
+
+        //Buttons
+        region = new TextureRegion(texture,0,650,250,250);
+        textures.put("GotoMainMenuButton",region);
+        region = new TextureRegion(texture,250,650,250,250);
+        textures.put("ReloadLevelButton",region);
+        region = new TextureRegion(texture,500,650,250,250);
+        textures.put("ResumeButton",region);
+        region = new TextureRegion(texture,0,900,930,370);
+        textures.put("StageCompletedText",region);
+
+        //StageDefeat
+        texture = new Texture(Gdx.files.internal("GUI/Menu/Options.png"));
+        region = new TextureRegion(texture,5,0,1060,640);
+        textures.put("StageDefeatBackground",region);
+        region = new TextureRegion(texture,0,700,580,180);
+        textures.put("StageDefeatText",region);
+
+        //Options
+        texture = new Texture(Gdx.files.internal("GUI/Menu/StageDefeat.png"));
+        region = new TextureRegion(texture,0,40,670,630);
+        textures.put("OptionsBackground",region);
+        region = new TextureRegion(texture,690,190,120,90);
+        textures.put("SoundImage",region);
+        region = new TextureRegion(texture,690,295,85,95);
+        textures.put("MusicImage",region);
+        region = new TextureRegion(texture,720,410,50,50);
+        textures.put("SelectorImage",region);
+
         //Load HealthBar
         texture = new Texture(Gdx.files.internal("Enemies/Healthbar.png"));
         region = new TextureRegion(texture, 20,4);

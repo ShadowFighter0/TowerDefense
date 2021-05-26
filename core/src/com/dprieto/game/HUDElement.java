@@ -20,8 +20,6 @@ public class HUDElement {
     Vector2 currentPosition;
     Vector2 dimension;
 
-
-
     Camera camera;
     boolean isActive;
 
@@ -78,6 +76,7 @@ public class HUDElement {
                 anchorPos.y = camera.position.y + camera.currentHeight/2;
                 break;
         }
+
         currentPosition.x = anchorPos.x + offsetPosition.x;
         currentPosition.y = anchorPos.y + offsetPosition.y;
 
