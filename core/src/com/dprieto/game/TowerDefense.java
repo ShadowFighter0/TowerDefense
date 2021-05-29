@@ -15,16 +15,19 @@ public class TowerDefense extends ApplicationAdapter {
 
 	LevelFactory levelFactory;
 	Level level;
-	
+	MainMenu mainMenu;
+
 	@Override
 	public void create ()
 	{
 		Gdx.app.setLogLevel(Application.LOG_DEBUG);
 
-
+		mainMenu = MainMenu.getInstance();
+		mainMenu.setMasterClass(this);
 		levelFactory = LevelFactory.getInstance();
-		level = LevelFactory.instance.getLevel(1);
+		levelFactory.setMasterClass(this);
 
+		level = levelFactory.getLevel(0);
 		batch = new SpriteBatch();
 
 		if(Gdx.app.getType() == Application.ApplicationType.Android || Gdx.app.getType() == Application.ApplicationType.iOS)

@@ -261,7 +261,7 @@ public class AssetManager {
 
         //Load Menus
 
-        //StageCompleted
+        //Menu Stage Completed
         texture = new Texture(Gdx.files.internal("GUI/Menu/StageCompleted.png"));
         region = new TextureRegion(texture,0,0,660,640);
         textures.put("StageCompletedBackground",region);
@@ -283,14 +283,14 @@ public class AssetManager {
         region = new TextureRegion(texture,0,900,930,370);
         textures.put("StageCompletedText",region);
 
-        //StageDefeat
+        //Menu Stage Defeat
         texture = new Texture(Gdx.files.internal("GUI/Menu/StageDefeat.png"));
         region = new TextureRegion(texture,5,0,1060,640);
         textures.put("StageDefeatBackground",region);
         region = new TextureRegion(texture,0,700,580,180);
         textures.put("StageDefeatText",region);
 
-        //Options
+        //Menu Options
         texture = new Texture(Gdx.files.internal("GUI/Menu/Options.png"));
         region = new TextureRegion(texture,0,40,670,630);
         textures.put("OptionsBackground",region);
@@ -306,7 +306,26 @@ public class AssetManager {
         region = new TextureRegion(texture, 20,4);
         textures.put("healthbar", region);
 
-        //Load Spells
+        //Load Paused
+        texture = new Texture(Gdx.files.internal("GUI/Menu/Paused.png"));
+        region = new TextureRegion(texture, 20,4);
+        textures.put("PausedMenu", region);
 
+        //Load MainMenu
+        texture = new Texture(Gdx.files.internal("GUI/Menu/StartScreen.png"));
+        region = new TextureRegion(texture, 15,35,655,635);
+        textures.put("MainMenuBackGround", region);
+        region = new TextureRegion(texture, 1355,30,275,265);
+        textures.put("StartButtonUp", region);
+        region = new TextureRegion(texture, 1355,320,275,265);
+        textures.put("StartButtonDown", region);
+        region = new TextureRegion(texture,10,770, 890,292);
+        textures.put("TitleText", region);
+        region = new TextureRegion(texture,10,770, 890,292);
+        textures.put("QuitButton", region);
+        region = new TextureRegion(texture,10,770, 890,292);
+        textures.put("InfoButton", region);
+
+        //TODO Load Spells
     }
 }

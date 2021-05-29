@@ -41,7 +41,7 @@ public class HUDElement {
 
     }
 
-    public HUDElement(String imageName, Vector2 position, Vector2 dimensionMultiplier, Anchor anchor, Camera camera)
+    public HUDElement (String imageName, Vector2 position, Vector2 dimensionMultiplier, Anchor anchor, Camera camera)
     {
         this.name = imageName;
         this.image = AssetManager.instance.getTexture(imageName);

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 public class LevelFactory {
 
     static LevelFactory instance;
+    TowerDefense master;
 
     LevelFactory()
     {
@@ -20,6 +21,11 @@ public class LevelFactory {
             instance = new LevelFactory();
         }
         return instance;
+    }
+
+    public void setMasterClass( TowerDefense master)
+    {
+        this.master = master;
     }
 
     public Level getLevel(int index)
