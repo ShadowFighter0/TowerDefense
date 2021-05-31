@@ -26,6 +26,7 @@ public class Enemy extends GameObject{
     //Variables
     ArrayList<Vector2> waypoints;
     int nextPoint;
+    boolean flip;
 
     //Animations
     Animation attackingAnimation;
@@ -36,10 +37,12 @@ public class Enemy extends GameObject{
 
     //Image
     TextureRegion healthbar;
+    Vector2 dimensionMultiplier;
 
-    public Enemy(ArrayList<Vector2> waypoints, Level level) {
+    public Enemy(ArrayList<Vector2> waypoints, Vector2 dimensionMultiplier, Level level) {
 
         setActive(false);
+        this.dimensionMultiplier = dimensionMultiplier;
 
         this.currentLevel = level;
 
@@ -65,6 +68,8 @@ public class Enemy extends GameObject{
             }
 
             setDimension(walkingAnimation.getSprite(0));
+            dimension.x *= dimensionMultiplier.x;
+            dimension.y *= dimensionMultiplier.y;
         }
 
         currentHealth = stats.health;
@@ -204,6 +209,7 @@ public class Enemy extends GameObject{
 
         if(isActive())
         {
+            flip = position.x > waypoints.get(nextPoint).x ? true : false;
             switch (currentState)
             {
                 //Move to next waypoint
@@ -243,7 +249,15 @@ public class Enemy extends GameObject{
 
         if(isActive())
         {
-            batch.draw(currentAnimation.getCurrentSprite(),position.x - dimension.x/2,position.y - dimension.y/2);
+            if(flip)
+            {
+                batch.draw(currentAnimation.getCurrentSprite(),position.x + dimension.x/2,position.y - dimension.y/2, -dimension.x, dimension.y);
+            }
+            else
+            {
+                batch.draw(currentAnimation.getCurrentSprite(),position.x - dimension.x/2,position.y - dimension.y/2, dimension.x, dimension.y);
+            }
+
 
             //DisplayLife
             batch.draw(healthbar, position.x - healthbar.getRegionWidth()/2, position.y + dimension.y/2);

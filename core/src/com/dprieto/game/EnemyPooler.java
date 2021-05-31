@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
+import java.util.Vector;
 
 public class EnemyPooler {
 
@@ -38,7 +39,7 @@ public class EnemyPooler {
     //Current level
     Level currentLevel;
 
-    public EnemyPooler(Level currentLevel, int poolSize, ArrayList<Vector2> path, ArrayList<Wave> waves)
+    public EnemyPooler(Level currentLevel, Vector2 dimensionMultiplier,  int poolSize, ArrayList<Vector2> path, ArrayList<Wave> waves)
     {
         //Variables
         this.currentLevel = currentLevel;
@@ -57,7 +58,7 @@ public class EnemyPooler {
         //Fill pool
         for (int i = 0; i < poolSize; i++)
         {
-            pool.add(new Enemy(path,currentLevel));
+            pool.add(new Enemy(path,dimensionMultiplier, currentLevel));
         }
 
         //Create WaveTimer

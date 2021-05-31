@@ -1,5 +1,7 @@
 package com.dprieto.game;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
@@ -31,6 +33,8 @@ public class MainMenu {
 
     MainMenu()
     {
+
+        camera = new Camera(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
         mode = MainMenuMode.InitialScreen;
 
         backgroundTexture = new HUDElement ("MainMenuBackGround", new Vector2(),

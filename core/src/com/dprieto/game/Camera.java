@@ -13,10 +13,6 @@ public class Camera {
     Vector2 target;
     boolean isGoingToTarget;
 
-    int treshold = 500;
-
-    float worldWidth;
-    float worldHeight;
 
     float viewportWidth;
     float viewportHeight;
@@ -34,13 +30,10 @@ public class Camera {
 
     Camera(float worldWidth, float worldHeight)
     {
-        this.worldWidth = worldWidth;
-        this.worldHeight = worldHeight;
-
         viewportWidth = worldWidth;
         viewportHeight = worldHeight;
 
-        width = (viewportHeight / Gdx.graphics.getHeight())*Gdx.graphics.getWidth();
+        width = (viewportHeight / Gdx.graphics.getHeight()) * Gdx.graphics.getWidth();
         height = viewportHeight;
 
         currentWidth = width;
@@ -58,8 +51,8 @@ public class Camera {
 
     public void update()
     {
-        position.x = MathUtils.clamp(position.x, (currentWidth/2), worldWidth - (currentWidth/2));
-        position.y = MathUtils.clamp(position.y, (currentHeight/2), worldHeight - (currentHeight/2));
+        position.x = MathUtils.clamp(position.x, (currentWidth/2), viewportWidth - (currentWidth/2));
+        position.y = MathUtils.clamp(position.y, (currentHeight/2), viewportHeight - (currentHeight/2));
 
         camera.position.set(position.x,position.y, 0);
 

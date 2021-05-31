@@ -3,10 +3,14 @@ package com.dprieto.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
@@ -20,8 +24,12 @@ public class Level {
     //Pooler
     EnemyPooler enemyPooler;
 
-    //GUI
-    Texture map;
+    //Map
+    Texture textureMap;
+    TiledMap tiledMap;
+    OrthogonalTiledMapRenderer renderer;
+    //Gui
+
     ArrayList<HUDElement> guiImages;
     WinDefeatMenu winDefeatMenu;
     HUDText lifeText;
@@ -42,7 +50,8 @@ public class Level {
     int money;
     int lives;
 
-    public Level(Texture map, ArrayList<Vector2> path, ArrayList<Vector2> buildingPlaces, int initialMoney, int initialLives, ArrayList<Wave> waves)
+    public Level(Texture map, ArrayList<Vector2> path, ArrayList<Vector2> buildingPlaces,
+                 int initialMoney, int initialLives, ArrayList<Wave> waves)
     {
         //BuildRing
         BuildRing.getInstance().level = this;
@@ -56,7 +65,7 @@ public class Level {
         winDefeatMenu = new WinDefeatMenu(this, guiCamera);
 
         //Variables
-        this.map = map;
+        this.textureMap = map;
         this.money = initialMoney;
         this.path = path;
         this.lives = initialLives;
@@ -66,11 +75,61 @@ public class Level {
 
         for (int i = 0; i < buildingPlaces.size(); i++)
         {
-            towers.add(new Tower(buildingPlaces.get(i),this));
+            towers.add(new Tower(buildingPlaces.get(i), this));
         }
 
         //Create Enemies
-        enemyPooler = new EnemyPooler(this,20,path, waves);
+        enemyPooler = new EnemyPooler(this, new Vector2(1,1),20,path, waves);
+
+        //GameState
+        gamestate = GameState.Playing;
+    }
+
+    public Level(TiledMap map, ArrayList<Vector2> path, ArrayList<Vector2> buildingPlaces,
+                 int initialMoney, int initialLives, ArrayList<Wave> waves)
+    {
+        //BuildRing
+        BuildRing.getInstance().level = this;
+
+        //Map
+        this.tiledMap = map;
+
+        //Camera stuff
+
+
+        int mapWidth = map.getProperties().get("width", Integer.class);
+        int mapHeight = map.getProperties().get("height", Integer.class);
+        int tilePixelWidth = map.getProperties().get("tilewidth", Integer.class);
+        int tilePixelHeight = map.getProperties().get("tileheight", Integer.class);
+
+        int w = mapWidth * tilePixelWidth;
+        int h = mapHeight * tilePixelHeight;
+
+        worldCamera = new Camera(w, h);
+        guiCamera = new Camera(w, h);
+
+        renderer = new OrthogonalTiledMapRenderer(tiledMap, Constants.TILED_UNIT_SCALE);
+
+        //Create GUI
+        CreateGUI();
+        winDefeatMenu = new WinDefeatMenu(this, guiCamera);
+
+        //Variables
+
+        this.money = initialMoney;
+        this.path = path;
+        this.lives = initialLives;
+
+        //Create towers
+        towers = new ArrayList<Tower>();
+
+        for (int i = 0; i < buildingPlaces.size(); i++)
+        {
+            towers.add(new Tower(buildingPlaces.get(i), this));
+        }
+
+        //Create Enemies
+        enemyPooler = new EnemyPooler(this, new Vector2(Constants.TILED_UNIT_SCALE,Constants.TILED_UNIT_SCALE), 20,path, waves);
 
         //GameState
         gamestate = GameState.Playing;
@@ -94,7 +153,6 @@ public class Level {
 
         roundText = new HUDText("roundIcon",new Vector2(-200,-50),
                 HUDElement.Anchor.UpperRight, font, guiCamera);
-
 
         buttonElements = new ArrayList<HUDButton>();
 
@@ -165,7 +223,15 @@ public class Level {
     void renderWorld (SpriteBatch batch)
     {
         //render map
-        batch.draw(map,0,0);
+        if (textureMap != null)
+        {
+            batch.draw(textureMap,0,0);
+        }
+        else
+        {
+            renderer.setView(worldCamera.camera);
+            renderer.render();
+        }
 
         //Render towers
         Tower selectedOne = null;

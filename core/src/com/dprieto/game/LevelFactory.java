@@ -1,5 +1,11 @@
 package com.dprieto.game;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.maps.MapObjects;
+import com.badlogic.gdx.maps.objects.PolylineMapObject;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.math.Polyline;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
@@ -23,18 +29,21 @@ public class LevelFactory {
         return instance;
     }
 
-    public void setMasterClass( TowerDefense master)
+    public void setMasterClass(TowerDefense master)
     {
         this.master = master;
     }
 
     public Level getLevel(int index)
     {
+        ArrayList<Vector2> path = new ArrayList<Vector2>();
+        ArrayList<Vector2> buildingPlaces = new ArrayList<Vector2>();
+        ArrayList<Wave> levelWaves = new ArrayList<Wave>();
+        ArrayList<WaveOrder> wave = new ArrayList<WaveOrder>();
+
         switch (index)
         {
             case 1:
-                ArrayList<Vector2> path = new ArrayList<Vector2>();
-
                 path.add(new Vector2(-100,470));
                 path.add(new Vector2(150,470));
                 path.add(new Vector2(210,540));
@@ -56,7 +65,6 @@ public class LevelFactory {
                 path.add(new Vector2(900,530));
                 path.add(new Vector2(1400,530));
 
-                ArrayList<Vector2> buildingPlaces = new ArrayList<Vector2>();
 
                 buildingPlaces.add(new Vector2(350,470));
                 buildingPlaces.add(new Vector2(350,600));
@@ -68,9 +76,6 @@ public class LevelFactory {
                 buildingPlaces.add(new Vector2(1160,660));
 
                 //List with all waves
-                ArrayList<Wave> levelWaves = new ArrayList<Wave>();
-                ArrayList<WaveOrder> wave = new ArrayList<WaveOrder>();
-
                 //Wave1
                 wave = new ArrayList<WaveOrder>();
                 wave.add(new WaveOrder(Constants.EnemyType.orcEnemy,1));
@@ -110,6 +115,78 @@ public class LevelFactory {
 
                 return new Level(
                         AssetManager.getInstance().getMap("Map"+index),
+                        path,
+                        buildingPlaces,
+                        500,
+                        3,
+                        levelWaves
+                );
+
+
+            case 2:
+
+                TiledMap map = new TmxMapLoader().load("Maps/Level2.tmx");
+
+                PolylineMapObject obj = (PolylineMapObject)map.getLayers().get("Waypoint").getObjects().get(0);
+
+                float [] vertices = obj.getPolyline().getTransformedVertices();
+
+                for(int i = 0 ; i < vertices.length; i+=2)
+                {
+                    path.add(new Vector2(vertices[i] * Constants.TILED_UNIT_SCALE, vertices[i+1] * Constants.TILED_UNIT_SCALE));
+                }
+
+
+                MapObjects towers = map.getLayers().get("TowerPlaces").getObjects();
+
+                for (int i = 0; i < towers.getCount(); i++)
+                {
+                    Vector2 position = new Vector2(towers.get(i).getProperties().get("x", Float.class) * Constants.TILED_UNIT_SCALE,
+                                                   towers.get(i).getProperties().get("y", Float.class) * Constants.TILED_UNIT_SCALE);
+                    
+                    buildingPlaces.add(position);
+                }
+
+                //List with all waves
+                //Wave1
+                wave = new ArrayList<WaveOrder>();
+                wave.add(new WaveOrder(Constants.EnemyType.orcEnemy,1));
+                wave.add(new WaveOrder(Constants.EnemyType.orcEnemy,1));
+                levelWaves.add(new Wave(wave,20));
+
+                //Wave 2
+                wave = new ArrayList<WaveOrder>();
+                wave.add(new WaveOrder(Constants.EnemyType.batEnemy,1));
+                wave.add(new WaveOrder(Constants.EnemyType.batEnemy,1));
+                wave.add(new WaveOrder(Constants.EnemyType.batEnemy,1));
+                wave.add(new WaveOrder(Constants.EnemyType.batEnemy,1));
+                wave.add(new WaveOrder(Constants.EnemyType.batEnemy,1));
+                wave.add(new WaveOrder(Constants.EnemyType.batEnemy,1));
+                wave.add(new WaveOrder(Constants.EnemyType.batEnemy,1));
+                wave.add(new WaveOrder(Constants.EnemyType.batEnemy,1));
+                levelWaves.add(new Wave(wave,20));
+
+                //Wave3
+                wave = new ArrayList<WaveOrder>();
+                wave.add(new WaveOrder(Constants.EnemyType.batEnemy,1));
+                wave.add(new WaveOrder(Constants.EnemyType.batEnemy,1));
+                levelWaves.add(new Wave(wave,20));
+
+                ////Wave4
+                wave = new ArrayList<WaveOrder>();
+                wave.add(new WaveOrder(Constants.EnemyType.goblinEnemy,1));
+                wave.add(new WaveOrder(Constants.EnemyType.goblinEnemy,1));
+                levelWaves.add(new Wave(wave,20));
+
+                //Wave5
+                wave = new ArrayList<WaveOrder>();
+                wave.add(new WaveOrder(Constants.EnemyType.shamanEnemy,1));
+                wave.add(new WaveOrder(Constants.EnemyType.shamanEnemy,1));
+                levelWaves.add(new Wave(wave,20));
+
+
+                return new Level(
+                        map,
                         path,
                         buildingPlaces,
                         500,

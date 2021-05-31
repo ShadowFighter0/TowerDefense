@@ -27,7 +27,7 @@ public class TowerDefense extends ApplicationAdapter {
 		levelFactory = LevelFactory.getInstance();
 		levelFactory.setMasterClass(this);
 
-		level = levelFactory.getLevel(0);
+		level = levelFactory.getLevel(2);
 		batch = new SpriteBatch();
 
 		if(Gdx.app.getType() == Application.ApplicationType.Android || Gdx.app.getType() == Application.ApplicationType.iOS)
@@ -70,8 +70,10 @@ public class TowerDefense extends ApplicationAdapter {
 	@Override
 	public void resize(int width, int height)
 	{
+
 		level.worldCamera.resize(width,height);
 		level.guiCamera.resize(width,height);
+
 	}
 
 	@Override

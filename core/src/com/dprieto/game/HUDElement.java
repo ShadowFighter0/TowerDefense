@@ -44,7 +44,7 @@ public class HUDElement {
     public HUDElement (String imageName, Vector2 position, Vector2 dimensionMultiplier, Anchor anchor, Camera camera)
     {
         this.name = imageName;
-        this.image = AssetManager.instance.getTexture(imageName);
+        this.image = AssetManager.getInstance().getTexture(imageName);
 
         this.offsetPosition = position;
         this.currentPosition = position.cpy();
