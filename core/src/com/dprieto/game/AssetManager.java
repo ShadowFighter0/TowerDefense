@@ -1,6 +1,8 @@
 package com.dprieto.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
@@ -13,16 +15,21 @@ public class AssetManager {
     HashMap<String,Texture> maps;
     HashMap<String,TextureRegion> textures;
     HashMap<String, Animation> animations;
+    HashMap<String, Sound> sounds;
+
+    Music backgroundMusic;
 
     private AssetManager()
     {
         maps = new HashMap<String,Texture>();
         textures = new HashMap<String,TextureRegion>();
         animations = new HashMap<String, Animation>();
+        sounds = new HashMap<String, Sound>();
 
         LoadMaps();
         LoadAnimations();
         LoadTextures();
+        LoadAudio();
     }
 
     public static AssetManager getInstance()
@@ -327,5 +334,45 @@ public class AssetManager {
         textures.put("InfoButton", region);
 
         //TODO Load Spells
+    }
+
+    void LoadAudio()
+    {
+        //Load Towers
+        Sound audio = Gdx.audio.newSound(Gdx.files.internal("Audio/TowerAudio/barrackTowerSound.mp3"));
+        sounds.put("barrackTowerSound", audio);
+        audio = Gdx.audio.newSound(Gdx.files.internal("Audio/TowerAudio/bowTowerSound.mp3"));
+        sounds.put("bowTowerSound", audio);
+        audio = Gdx.audio.newSound(Gdx.files.internal("Audio/TowerAudio/crossbowTowerSound.mp3"));
+        sounds.put("crossbowTowerSound", audio);
+        audio = Gdx.audio.newSound(Gdx.files.internal("Audio/TowerAudio/wizardTowerSound.mp3"));
+        sounds.put("wizardTowerSound", audio);
+
+        //Load Menu Sounds
+        audio = Gdx.audio.newSound(Gdx.files.internal("Audio/Others/Construct.mp3"));
+        sounds.put("Construct", audio);
+        audio = Gdx.audio.newSound(Gdx.files.internal("Audio/Others/Defeat.mp3"));
+        sounds.put("Defeat", audio);
+        audio = Gdx.audio.newSound(Gdx.files.internal("Audio/Others/Sell.mp3"));
+        sounds.put("Sell", audio);
+        audio = Gdx.audio.newSound(Gdx.files.internal("Audio/Others/Victory.mp3"));
+        sounds.put("Victory", audio);
+        audio = Gdx.audio.newSound(Gdx.files.internal("Audio/Others/WaveStart.mp3"));
+        sounds.put("WaveStart", audio);
+
+        //Load Guard Sounds
+        audio = Gdx.audio.newSound(Gdx.files.internal("Audio/Guard/GuardAttack1.mp3"));
+        sounds.put("GuardAttack1", audio);
+        audio = Gdx.audio.newSound(Gdx.files.internal("Audio/Guard/GuardAttack2.mp3"));
+        sounds.put("GuardAttack2", audio);
+
+        //Load Enemy
+        audio = Gdx.audio.newSound(Gdx.files.internal("Audio/Enemy/EnemyAttack.mp3"));
+        sounds.put("EnemyAttack", audio);
+        audio = Gdx.audio.newSound(Gdx.files.internal("Audio/Enemy/EnemyDie.mp3"));
+        sounds.put("EnemyDie", audio);
+
+        //BackGroundMusic
+        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("Audio/Music/BackgroundMusic.mp3"));
     }
 }

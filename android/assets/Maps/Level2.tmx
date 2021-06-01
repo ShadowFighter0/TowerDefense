@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.6.0" orientation="orthogonal" renderorder="right-down" width="10" height="10" tilewidth="200" tileheight="200" infinite="0" nextlayerid="12" nextobjectid="68">
+<map version="1.5" tiledversion="1.6.0" orientation="orthogonal" renderorder="right-down" width="10" height="10" tilewidth="200" tileheight="200" infinite="0" nextlayerid="12" nextobjectid="72">
  <tileset firstgid="1" source="TowerDefense.tsx"/>
  <imagelayer id="2" name="BackGround">
   <image source="TileSeet/TileMap 1.png" width="2000" height="2000"/>
@@ -38,7 +38,7 @@
 0,0,0,0,0,0,0,0,0,0,
 0,0,7,0,0,0,0,0,0,0,
 0,0,0,0,0,0,7,0,0,0,
-0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,7,0,
 0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,
 0,0,0,7,0,0,0,7,0,0,
@@ -75,16 +75,22 @@
 </data>
  </layer>
  <objectgroup id="7" name="TowerPlaces">
-  <object id="62" x="490.909" y="496.97">
+  <object id="62" x="497.576" y="547.637">
    <point/>
   </object>
-  <object id="63" x="1290.91" y="712.121">
+  <object id="63" x="1332.24" y="692.121">
    <point/>
   </object>
-  <object id="64" x="687.879" y="1509.09">
+  <object id="68" x="1494.67" y="1564">
    <point/>
   </object>
-  <object id="65" x="1493.94" y="1512.12">
+  <object id="69" x="685.333" y="1570.67">
+   <point/>
+  </object>
+  <object id="70" x="1641.33" y="909.333">
+   <point/>
+  </object>
+  <object id="71" x="2653.33" y="538.667">
    <point/>
   </object>
  </objectgroup>
