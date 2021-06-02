@@ -1,11 +1,9 @@
 package com.dprieto.game;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.objects.PolylineMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.math.Polyline;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
@@ -13,7 +11,9 @@ import java.util.ArrayList;
 public class LevelFactory {
 
     static LevelFactory instance;
-    TowerDefense master;
+    LevelsScreen master;
+
+    int numberOfLevels = 2;
 
     LevelFactory()
     {
@@ -29,7 +29,7 @@ public class LevelFactory {
         return instance;
     }
 
-    public void setMasterClass(TowerDefense master)
+    public void setMasterClass(LevelsScreen master)
     {
         this.master = master;
     }

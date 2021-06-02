@@ -1,12 +1,13 @@
 package com.dprieto.game;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
 public class HUDButton extends HUDElement{
 
-    enum ButtonType {Play, Pause, MainMenu, Restart, Resume, Sound, Music,
-                     InitialMenuStart, Quit,  }
+    enum ButtonType {Play, Pause,Restart, Resume, MainMenu, StartLevel, Sound, Music,
+                     InitialMenuStart, Quit, ArrowLeft, ArrowRight}
     ButtonType type;
     Level level;
 
@@ -31,8 +32,8 @@ public class HUDButton extends HUDElement{
 
     public boolean checkClicked (Vector2 point)
     {
-        if (point.x > currentPosition.x - dimension.x/2 && point.x < currentPosition.x + dimension.x/2
-                && point.y > currentPosition.y - dimension.y/2 && point.y < currentPosition.y + dimension.y/2)
+        if (point.x > currentPosition.x - dimension.x / 2 && point.x < currentPosition.x + dimension.x / 2
+                && point.y > currentPosition.y - dimension.y / 2 && point.y < currentPosition.y + dimension.y / 2)
         {
             OnClicked();
             return true;
@@ -47,6 +48,38 @@ public class HUDButton extends HUDElement{
     public void OnClicked(){
         switch (type)
         {
+            case InitialMenuStart:
+
+                MainMenu.instance.mode = MainMenu.MainMenuMode.Map;
+
+                break;
+
+            case ArrowLeft:
+
+                MainMenu.instance.currentLevel--;
+                if (MainMenu.instance.currentLevel < 1)
+                {
+                    MainMenu.instance.currentLevel = LevelFactory.getInstance().numberOfLevels;
+                }
+
+                break;
+
+            case ArrowRight:
+
+                MainMenu.instance.currentLevel++;
+                if (MainMenu.instance.currentLevel > LevelFactory.getInstance().numberOfLevels )
+                {
+                    MainMenu.instance.currentLevel = 1;
+                }
+
+                break;
+
+            case StartLevel:
+
+                MainMenu.instance.StartGame();
+
+                break;
+
             case Play:
                 PlayButton();
 
@@ -74,10 +107,15 @@ public class HUDButton extends HUDElement{
             case Sound:
                 SetSoundVolume();
                 break;
+
+            case Quit:
+                Gdx.app.exit();
+                break;
         }
     }
 
-    public void OnNotClicked(){
+    public void OnNotClicked()
+    {
 
     }
 
@@ -104,9 +142,23 @@ public class HUDButton extends HUDElement{
 
     void MainMenuButton() {
 
+        if (level != null)
+        {
+            MainMenu.instance.mode = MainMenu.MainMenuMode.Map;
+            LevelsScreen.instance.game.setScene("MainMenu");
+        }
+        else
+        {
+            MainMenu.instance.mode = MainMenu.MainMenuMode.Map;
+            MainMenu.instance.game.setScene("MainMenu");
+        }
     }
 
-    void SetMusicVolume(){}
+    void SetMusicVolume(){
 
-    void SetSoundVolume(){}
+    }
+
+    void SetSoundVolume(){
+
+    }
 }

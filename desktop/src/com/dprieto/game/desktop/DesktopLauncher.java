@@ -2,7 +2,7 @@ package com.dprieto.game.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.dprieto.game.TowerDefense;
+import com.dprieto.game.MainGame;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {
@@ -15,6 +15,6 @@ public class DesktopLauncher {
 
 		//config.fullscreen = true;
 
-		new LwjglApplication(new TowerDefense(), config);
+		new LwjglApplication(new MainGame(), config);
 	}
 }

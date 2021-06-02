@@ -7,12 +7,9 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Camera {
 
-    OrthographicCamera camera;
+    OrthographicCamera orthographicCamera;
 
     Vector2 position;
-    Vector2 target;
-    boolean isGoingToTarget;
-
 
     float viewportWidth;
     float viewportHeight;
@@ -28,10 +25,10 @@ public class Camera {
     float maxZoom = 1;
     float minZoom = 0.40f;
 
-    Camera(float worldWidth, float worldHeight)
+    Camera(float viewportWidth, float viewportHeight)
     {
-        viewportWidth = worldWidth;
-        viewportHeight = worldHeight;
+        this.viewportWidth = viewportWidth;
+        this.viewportHeight = viewportHeight;
 
         width = (viewportHeight / Gdx.graphics.getHeight()) * Gdx.graphics.getWidth();
         height = viewportHeight;
@@ -39,14 +36,14 @@ public class Camera {
         currentWidth = width;
         currentHeight = height;
 
-        camera = new OrthographicCamera(currentWidth, currentHeight);
+        orthographicCamera = new OrthographicCamera(viewportWidth, viewportHeight);
 
         currentZoom = maxZoom;
 
-        position = new Vector2(currentWidth/2,currentHeight/2);
-        camera.position.set(position.x,position.y,0);
+        position = new Vector2(viewportWidth/2,viewportHeight/2);
+        orthographicCamera.position.set(position.x,position.y,0);
 
-        camera.update();
+        orthographicCamera.update();
     }
 
     public void update()
@@ -54,9 +51,9 @@ public class Camera {
         position.x = MathUtils.clamp(position.x, (currentWidth/2), viewportWidth - (currentWidth/2));
         position.y = MathUtils.clamp(position.y, (currentHeight/2), viewportHeight - (currentHeight/2));
 
-        camera.position.set(position.x,position.y, 0);
+        orthographicCamera.position.set(position.x,position.y, 0);
 
-        camera.update();
+        orthographicCamera.update();
     }
 
     public void moveCamera(float xOffset, float yOffset)
@@ -66,7 +63,7 @@ public class Camera {
 
         update();
 
-        camera.update();
+        orthographicCamera.update();
     }
 
     public void changeZoom (float zoomOffset)
@@ -80,14 +77,14 @@ public class Camera {
             currentWidth = width * currentZoom;
             currentHeight = height * currentZoom;
 
-            camera.viewportWidth = currentWidth;
-            camera.viewportHeight = currentHeight;
+            orthographicCamera.viewportWidth = currentWidth;
+            orthographicCamera.viewportHeight = currentHeight;
         }
 
-        camera.update();
+        orthographicCamera.update();
     }
 
-    public void resize(int newWidth, int newHeight)
+    public void ExpandResize(int newWidth, int newHeight)
     {
         if (newWidth - (viewportWidth - viewportHeight) < newHeight ) //if more height than width adjust width
         {
@@ -103,9 +100,27 @@ public class Camera {
         currentWidth = width;
         currentHeight = height;
 
-        camera.viewportWidth = width;
-        camera.viewportHeight = height;
+        orthographicCamera.viewportWidth = width;
+        orthographicCamera.viewportHeight = height;
 
-        camera.update();
+        orthographicCamera.update();
+    }
+
+    public void FitResize(int newWidth, int newHeight)
+    {
+        if (newWidth - (viewportWidth - viewportHeight) > newHeight)
+        {
+            height = viewportHeight;
+            width = height * ((float)newWidth / (float)newHeight);
+        }
+        else
+        {
+            width = viewportWidth;
+            height = width * ((float)newHeight / (float)newWidth);
+        }
+
+        orthographicCamera.viewportWidth = width;
+        orthographicCamera.viewportHeight = height;
+        orthographicCamera.update();
     }
 }

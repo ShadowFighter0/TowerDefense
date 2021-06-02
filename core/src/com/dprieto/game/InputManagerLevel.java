@@ -4,7 +4,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
-public class InputManagerDesktop implements InputProcessor {
+public class InputManagerLevel implements InputProcessor {
 
     private Level level;
 
@@ -12,11 +12,15 @@ public class InputManagerDesktop implements InputProcessor {
     boolean isDragging;
     Vector2 screenPoint;
 
-    public InputManagerDesktop(Level level)
+    public InputManagerLevel()
     {
-        this.level = level;
         point = new Vector2();
         screenPoint = new Vector2();
+    }
+
+    public void SetLevel(Level level)
+    {
+        this.level = level;
     }
 
     @Override
@@ -37,7 +41,7 @@ public class InputManagerDesktop implements InputProcessor {
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button)
     {
-        Vector3 pos = level.guiCamera.camera.unproject(new Vector3(screenX,screenY,0));
+        Vector3 pos = level.guiCamera.orthographicCamera.unproject(new Vector3(screenX,screenY,0));
 
         screenPoint.x = screenX;
         screenPoint.y = screenY;
@@ -47,7 +51,7 @@ public class InputManagerDesktop implements InputProcessor {
 
         if (!GuiCamera())
         {
-            pos = level.worldCamera.camera.unproject(new Vector3(screenX,screenY,0));
+            pos = level.worldCamera.orthographicCamera.unproject(new Vector3(screenX,screenY,0));
 
             point.x = pos.x;
             point.y = pos.y;
@@ -180,7 +184,7 @@ public class InputManagerDesktop implements InputProcessor {
             float cameraMovementX = screenX - screenPoint.x;
             float cameraMovementY = screenY - screenPoint.y;
 
-            level.worldCamera.moveCamera(- cameraMovementX, cameraMovementY);
+            level.worldCamera.moveCamera(-cameraMovementX, cameraMovementY);
             screenPoint.x = screenX;
             screenPoint.y = screenY;
         }

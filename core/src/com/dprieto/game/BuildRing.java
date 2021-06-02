@@ -119,7 +119,7 @@ public class BuildRing extends GameObject{
     public void render(SpriteBatch batch) {
         if (isActive() == true)
         {
-            batch.draw(image,position.x - image.getRegionWidth()/2, position.y - image.getRegionWidth()/2);
+            batch.draw(image,position.x - image.getRegionWidth()/2, position.y - image.getRegionHeight()/2);
 
             //Something build upgrade or sell Tower
             if(selectedTower.type != Constants.TowerType.sign)

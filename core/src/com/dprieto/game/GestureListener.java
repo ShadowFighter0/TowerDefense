@@ -11,16 +11,20 @@ public class GestureListener implements GestureDetector.GestureListener {
     boolean isDragging;
     Vector2 screenPoint;
 
-    public GestureListener (Level level)
+    public GestureListener ()
     {
-        this.level = level;
         point = new Vector2();
         screenPoint = new Vector2();
     }
 
+    public void SetLevel(Level level)
+    {
+        this.level = level;
+    }
+
     @Override
     public boolean touchDown(float x, float y, int pointer, int button) {
-        Vector3 pos = level.worldCamera.camera.unproject(new Vector3(x,y,0));
+        Vector3 pos = level.worldCamera.orthographicCamera.unproject(new Vector3(x,y,0));
 
         screenPoint.x = x;
         screenPoint.y = y;

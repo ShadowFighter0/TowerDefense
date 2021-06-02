@@ -1,15 +1,11 @@
 package com.dprieto.game;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 
@@ -95,7 +91,6 @@ public class Level {
         this.tiledMap = map;
 
         //Camera stuff
-
 
         int mapWidth = map.getProperties().get("width", Integer.class);
         int mapHeight = map.getProperties().get("height", Integer.class);
@@ -200,7 +195,7 @@ public class Level {
 
     public void render(SpriteBatch batch)
     {
-        batch.setProjectionMatrix(worldCamera.camera.combined);
+        batch.setProjectionMatrix(worldCamera.orthographicCamera.combined);
 
         batch.begin();
 
@@ -209,7 +204,7 @@ public class Level {
         batch.end();
 
 
-        batch.setProjectionMatrix(guiCamera.camera.combined);
+        batch.setProjectionMatrix(guiCamera.orthographicCamera.combined);
 
         batch.begin();
 
@@ -229,7 +224,7 @@ public class Level {
         }
         else
         {
-            renderer.setView(worldCamera.camera);
+            renderer.setView(worldCamera.orthographicCamera);
             renderer.render();
         }
 

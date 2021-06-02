@@ -58,10 +58,11 @@ public class AssetManager {
     //Load Assets
     void LoadMaps()
     {
-        //Load Maps TODO from tiled
-        maps.put("Map1",new Texture(Gdx.files.internal("Maps/Map_01.png")));
-        maps.put("Map2",new Texture(Gdx.files.internal("Maps/Map_02.png")));
-        maps.put("Map2",new Texture(Gdx.files.internal("Maps/Map_03.png")));
+        //Load Maps
+        maps.put("Map1", new Texture(Gdx.files.internal("Maps/Map_01.png")));
+        maps.put("Map2", new Texture(Gdx.files.internal("Maps/MiniLevel2.jpg")));
+        maps.put("Map3", new Texture(Gdx.files.internal("Maps/Map_03.png")));
+        maps.put("Map4", new Texture(Gdx.files.internal("Maps/Map_04.png")));
     }
 
     void LoadAnimationFromFile(String filePath, String animationName, float frameDuration, boolean loop, int numColumns, int numRows, int xSize, int ySize)
@@ -123,9 +124,6 @@ public class AssetManager {
 
     void LoadAnimations()
     {
-        TextureRegion region;
-        Texture texture;
-
         //Load Enemies
         LoadAnimationFromFile("Enemies/Bat.png","batEnemyAnimationWalking", 0.1f, true, 3,2,60,60);
 
@@ -137,7 +135,7 @@ public class AssetManager {
         LoadAnimationFromFile("Enemies/Orc.png","orcEnemyAnimationWalking"  ,0.1f,true, 6,1,95,95,0,95,0,0);
         LoadAnimationFromFile("Enemies/Orc.png","orcEnemyAnimationDying"    ,0.1f,false, 6,1,95,95,0,190,0,0);
 
-        LoadAnimationFromFile("Enemies/Shaman.png","shamanEnemyAnimationWalking",0.1f, true, 6,1,95,95);
+        LoadAnimationFromFile("Enemies/Shaman.png","shamanEnemyAnimationWalking",0.1f, true, 3,1,95,95);
 
         //Load Guardians
         LoadAnimationFromFile("Towers/Shoots/Guards.png","guardAnimationAttacking",0.1f, false, 6,1,95,95);
@@ -320,18 +318,29 @@ public class AssetManager {
 
         //Load MainMenu
         texture = new Texture(Gdx.files.internal("GUI/Menu/StartScreen.png"));
-        region = new TextureRegion(texture, 15,35,655,635);
+        region = new TextureRegion(texture, 15,10,1280,720);
         textures.put("MainMenuBackGround", region);
-        region = new TextureRegion(texture, 1355,30,275,265);
+        region = new TextureRegion(texture, 1340,25,300,300);
         textures.put("StartButtonUp", region);
-        region = new TextureRegion(texture, 1355,320,275,265);
-        textures.put("StartButtonDown", region);
+        region = new TextureRegion(texture, 1340,330,300,300);
+        textures.put("ButtonShadow", region);
         region = new TextureRegion(texture,10,770, 890,292);
         textures.put("TitleText", region);
-        region = new TextureRegion(texture,10,770, 890,292);
+        region = new TextureRegion(texture,1180,755, 235,240);
         textures.put("QuitButton", region);
-        region = new TextureRegion(texture,10,770, 890,292);
-        textures.put("InfoButton", region);
+
+        //Load Choose Level
+        texture = new Texture(Gdx.files.internal("GUI/Menu/ChooseLevel.png"));
+        region = new TextureRegion(texture, 0,10,800,660);
+        textures.put("ChooseMenuBackground", region);
+        region = new TextureRegion(texture, 820,305,110,155);
+        textures.put("ArrowLeft", region);
+        region = new TextureRegion(texture, 955,305,110,155);
+        textures.put("ArrowRight", region);
+        region = new TextureRegion(texture, 820,190,65,95);
+        textures.put("StarContainer", region);
+        region = new TextureRegion(texture, 1145,210,35,30);
+        textures.put("LevelName", region);
 
         //TODO Load Spells
     }
