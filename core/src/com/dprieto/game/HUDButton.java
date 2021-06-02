@@ -6,8 +6,9 @@ import com.badlogic.gdx.math.Vector2;
 
 public class HUDButton extends HUDElement{
 
-    enum ButtonType {Play, Pause,Restart, Resume, MainMenu, StartLevel, Sound, Music,
-                     InitialMenuStart, Quit, ArrowLeft, ArrowRight}
+    enum ButtonType {Play, Pause,Restart, Resume, MainMenu, StartLevel,
+                     InitialMenuStart, Quit, ArrowLeft, ArrowRight,
+                     MusicVolumeUp, MusicVolumeDown, SoundVolumeUp, SoundVolumeDown}
     ButtonType type;
     Level level;
 
@@ -81,31 +82,51 @@ public class HUDButton extends HUDElement{
                 break;
 
             case Play:
-                PlayButton();
-
-                break;
-            case Pause:
-                PauseButton();
-
-                break;
             case Resume:
-                ResumeButton();
+                level.SetGameState(Level.GameState.Playing);
+                level.winDefeatMenu.SetActive(false, WinDefeatMenu.ButtonMode.Pause);
 
                 break;
+
+            case Pause:
+                level.SetGameState(Level.GameState.Pause);
+                level.winDefeatMenu.SetActive(true, WinDefeatMenu.ButtonMode.Pause);
+
+                break;
+
             case Restart:
-                RestartButton();
+                LevelsScreen.instance.game.ReloadLevel();
 
                 break;
             case MainMenu:
-                MainMenuButton();
+
+                if (level != null)
+                {
+                    MainMenu.instance.mode = MainMenu.MainMenuMode.Map;
+                    LevelsScreen.instance.game.setScene("MainMenu");
+                }
+                else
+                {
+                    MainMenu.instance.mode = MainMenu.MainMenuMode.Map;
+                    MainMenu.instance.game.setScene("MainMenu");
+                }
 
                 break;
-            case Music:
-                SetMusicVolume();
+
+            case MusicVolumeUp:
+                    //level.winDefeatMenu.
                 break;
 
-            case Sound:
-                SetSoundVolume();
+            case MusicVolumeDown:
+
+                break;
+
+            case SoundVolumeUp:
+
+                break;
+
+            case SoundVolumeDown:
+
                 break;
 
             case Quit:
@@ -119,46 +140,4 @@ public class HUDButton extends HUDElement{
 
     }
 
-    void PlayButton ()
-    {
-        level.SetGameState(Level.GameState.Playing);
-        level.winDefeatMenu.SetActive(false, WinDefeatMenu.ButtonMode.Pause);
-    }
-
-    void PauseButton()
-    {
-        level.SetGameState(Level.GameState.Pause);
-        level.winDefeatMenu.SetActive(true, WinDefeatMenu.ButtonMode.Pause);
-    }
-
-    void ResumeButton(){
-        level.SetGameState(Level.GameState.Playing);
-        level.winDefeatMenu.SetActive(false, WinDefeatMenu.ButtonMode.Pause);
-    }
-
-    void RestartButton(){
-
-    }
-
-    void MainMenuButton() {
-
-        if (level != null)
-        {
-            MainMenu.instance.mode = MainMenu.MainMenuMode.Map;
-            LevelsScreen.instance.game.setScene("MainMenu");
-        }
-        else
-        {
-            MainMenu.instance.mode = MainMenu.MainMenuMode.Map;
-            MainMenu.instance.game.setScene("MainMenu");
-        }
-    }
-
-    void SetMusicVolume(){
-
-    }
-
-    void SetSoundVolume(){
-
-    }
 }

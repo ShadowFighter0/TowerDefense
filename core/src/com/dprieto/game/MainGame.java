@@ -41,4 +41,11 @@ public class MainGame extends com.badlogic.gdx.Game {
 
         setScreen(levels);
     }
+
+    public void ReloadLevel()
+    {
+        levels.SetLevel(selectedLevel);
+
+        setScreen(levels);
+    }
 }
