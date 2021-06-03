@@ -113,12 +113,15 @@ public class HUDButton extends HUDElement{
 
                 break;
 
+
+
             case MusicVolumeUp:
 
                 Gdx.app.debug("CurrentMusic",SoundManager.getInstance().currentMusicVolume + "");
                 if (SoundManager.getInstance().currentMusicVolume < 10)
                 {
                     SoundManager.getInstance().currentMusicVolume++;
+                    SoundManager.getInstance().SetMusicVolume(SoundManager.getInstance().currentMusicVolume);
 
                     level.winDefeatMenu.musicSelectorButton.offsetPosition.x =
                             level.winDefeatMenu.musicEmpty.x +
@@ -127,11 +130,10 @@ public class HUDButton extends HUDElement{
                 break;
 
             case MusicVolumeDown:
-
-                Gdx.app.debug("CurrentMusic",SoundManager.getInstance().currentMusicVolume + "");
                 if (SoundManager.getInstance().currentMusicVolume > 0)
                 {
                     SoundManager.getInstance().currentMusicVolume--;
+                    SoundManager.getInstance().SetMusicVolume(SoundManager.getInstance().currentMusicVolume);
 
                     level.winDefeatMenu.musicSelectorButton.offsetPosition.x =
                             level.winDefeatMenu.musicEmpty.x +
@@ -145,7 +147,6 @@ public class HUDButton extends HUDElement{
                 if (SoundManager.getInstance().currentSoundVolume < 10)
                 {
                     SoundManager.getInstance().currentSoundVolume++;
-
                     level.winDefeatMenu.soundSelectorButton.offsetPosition.x =
                             level.winDefeatMenu.musicEmpty.x +
                             (SoundManager.getInstance().currentSoundVolume * ((level.winDefeatMenu.soundFull.cpy().x - level.winDefeatMenu.soundEmpty.cpy().x) / 10f));

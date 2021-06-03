@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 
+import java.util.Random;
+
 public class Guard extends GameObject {
 
     //References
@@ -176,6 +178,10 @@ public class Guard extends GameObject {
                     {
                         currentReloadTime = 0;
                         ChangeAnimation(attackingAnimation);
+
+                        int option = MathUtils.random(0,1);
+
+                        SoundManager.getInstance().PlaySound( option == 1 ? "GuardAttack1" : "GuardAttack2" );
 
                         if (enemyTarget.getDamage(damage))
                         {

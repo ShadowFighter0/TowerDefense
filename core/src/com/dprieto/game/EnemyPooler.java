@@ -96,6 +96,7 @@ public class EnemyPooler {
 
             currentWaveIndex++;
 
+            SoundManager.getInstance().PlaySound("WaveStart");
         }
         else
         {

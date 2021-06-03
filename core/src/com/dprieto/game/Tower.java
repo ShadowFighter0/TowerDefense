@@ -1,5 +1,6 @@
 package com.dprieto.game;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -80,7 +81,15 @@ public class Tower extends GameObject{
         upTexture = AssetManager.getInstance().getTexture(type.name()+"Up");
 
         if (option != Constants.TowerType.sign)
+        {
+            SoundManager.getInstance().PlaySound("Construct");
             shootImage = AssetManager.getInstance().getTexture(type.name() + "Shoot");
+        }
+        else
+        {
+            SoundManager.getInstance().PlaySound("Sell");
+        }
+
 
         setDimension(baseTexture);
 
@@ -202,6 +211,8 @@ public class Tower extends GameObject{
             if (currentReloadTime >= stats.reloadTime)
             {
                 shoot();
+                SoundManager.getInstance().PlaySound(type.name()+"Sound");
+
                 currentReloadTime = 0;
             }
             else

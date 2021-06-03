@@ -9,8 +9,6 @@ public class SoundManager {
 
     public static SoundManager instance;
 
-    ArrayList<Sound> activeSounds;
-
     Music backgroundMusic;
 
     int currentSoundVolume = 10;
@@ -18,7 +16,7 @@ public class SoundManager {
 
     SoundManager ()
     {
-
+        backgroundMusic = AssetManager.getInstance().backgroundMusic;
     }
 
     public static SoundManager getInstance() {
@@ -29,45 +27,28 @@ public class SoundManager {
         return instance;
     }
 
-    public void StopAllSounds ()
-    {
-        for (int i = 0; i < activeSounds.size(); i++)
-        {
-            activeSounds.get(i).stop();
-        }
-    }
-
-    public void ResumeAllSounds ()
-    {
-        for (int i = 0; i < activeSounds.size(); i++)
-        {
-            activeSounds.get(i).play((float)currentSoundVolume/10);
-        }
-    }
-
-    public void SetSoundVolume (int newVolume)
-    {
-        currentSoundVolume = newVolume;
-    }
-
     public void SetMusicVolume (int newVolume)
     {
         currentMusicVolume = newVolume;
-        backgroundMusic.setVolume((float)currentMusicVolume/10);
+        backgroundMusic.setVolume((float)currentMusicVolume/100);
     }
 
     public void PlaySound (String name)
     {
         Sound s = AssetManager.getInstance().sounds.get(name);
-        s.play(currentSoundVolume);
-        activeSounds.add(s);
+        s.play((float)currentSoundVolume/100);
     }
 
     public void PlayMusic ()
     {
-        backgroundMusic = AssetManager.getInstance().backgroundMusic;
-        backgroundMusic.setVolume((float)currentMusicVolume/10);
+        backgroundMusic.setVolume((float)currentMusicVolume/100);
         backgroundMusic.setLooping(true);
         backgroundMusic.play();
+        backgroundMusic.setLooping(true);
+    }
+
+    public void StopMusic()
+    {
+        backgroundMusic.stop();
     }
 }

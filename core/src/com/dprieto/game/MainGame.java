@@ -27,10 +27,12 @@ public class MainGame extends com.badlogic.gdx.Game {
         {
             setScreen(mainMenu);
             mainMenu.SetControl();
+            SoundManager.getInstance().StopMusic();
         }
         else if(screenName == "Level")
         {
             setScreen(levels);
+            SoundManager.getInstance().PlayMusic();
         }
     }
 

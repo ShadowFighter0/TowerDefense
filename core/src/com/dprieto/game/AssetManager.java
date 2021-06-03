@@ -356,6 +356,8 @@ public class AssetManager {
         sounds.put("crossbowTowerSound", audio);
         audio = Gdx.audio.newSound(Gdx.files.internal("Audio/TowerAudio/wizardTowerSound.mp3"));
         sounds.put("wizardTowerSound", audio);
+        audio = Gdx.audio.newSound(Gdx.files.internal("Audio/TowerAudio/bombTowerSound.mp3"));
+        sounds.put("bombTowerSound", audio);
 
         //Load Menu Sounds
         audio = Gdx.audio.newSound(Gdx.files.internal("Audio/Others/Construct.mp3"));

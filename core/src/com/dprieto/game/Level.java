@@ -170,6 +170,7 @@ public class Level {
             if (lives == 0)
             {
                 gamestate = GameState.Loose;
+                SoundManager.getInstance().PlaySound("Defeat");
                 winDefeatMenu.SetActive(true, WinDefeatMenu.ButtonMode.Loose);
             }
             else
@@ -186,6 +187,7 @@ public class Level {
         }
         else if (gamestate == GameState.Win)
         {
+            SoundManager.getInstance().PlaySound("Victory");
             winDefeatMenu.SetActive(true, WinDefeatMenu.ButtonMode.Win);
         }
 

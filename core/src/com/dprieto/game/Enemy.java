@@ -1,6 +1,9 @@
 package com.dprieto.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Graphics;
+import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -39,6 +42,10 @@ public class Enemy extends GameObject{
     TextureRegion healthbar;
     Vector2 dimensionMultiplier;
 
+    //Particle
+    ParticleEffect effect;
+    float particleLifeTime = 0;
+
     public Enemy(ArrayList<Vector2> waypoints, Vector2 dimensionMultiplier, Level level) {
 
         setActive(false);
@@ -50,6 +57,12 @@ public class Enemy extends GameObject{
         this.position = waypoints.get(0).cpy();
 
         healthbar = AssetManager.getInstance().getTexture("healthbar");
+
+        //Effect
+        effect = new ParticleEffect();
+        effect.load(Gdx.files.internal("Particles/Blood"),Gdx.files.internal("Particles/"));
+        effect.allowCompletion();
+        effect.scaleEffect(0.5f);
     }
 
     //Set Enemy Type and get all the data needed
@@ -118,8 +131,13 @@ public class Enemy extends GameObject{
 
         currentHealth -= damage;
 
+        effect.setPosition(position.x, position.y);
+        effect.start();
+
         if (currentHealth <= 0 && currentState != State.dead)
         {
+            SoundManager.getInstance().PlaySound("EnemyDie");
+
             if (type == Constants.EnemyType.batEnemy || type == Constants.EnemyType.shamanEnemy)
             {
                 returnToPool();
@@ -175,6 +193,7 @@ public class Enemy extends GameObject{
                     currentReloadTime = 0;
 
                     ChangeAnimation(attackingAnimation);
+                    SoundManager.getInstance().PlaySound("EnemyAttack");
 
                     if (guard.getDamage(stats.damage))
                     {
@@ -204,12 +223,27 @@ public class Enemy extends GameObject{
         }
     }
 
+    void ParticleEffectUpdate (float delta)
+    {
+        effect.update(particleLifeTime);
+
+        if (effect.isComplete()) {
+            particleLifeTime = 0;
+        }
+        else
+        {
+            particleLifeTime += delta;
+        }
+    }
+
     @Override
     public void update(float delta){
 
         if(isActive())
         {
+            ParticleEffectUpdate(Gdx.graphics.getDeltaTime());
             flip = position.x > waypoints.get(nextPoint).x ? true : false;
+
             switch (currentState)
             {
                 //Move to next waypoint
@@ -266,6 +300,8 @@ public class Enemy extends GameObject{
             batch.draw(healthbar, position.x - healthbar.getRegionWidth()/2, position.y + dimension.y/2,
                     healthbar.getRegionWidth() * ((float)currentHealth/(float)stats.health), healthbar.getRegionHeight());
             batch.setColor(1,1,1,1);
+
+            effect.draw(batch);
         }
     }
 

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 public class LevelFactory {
 
     static LevelFactory instance;
+
     LevelsScreen master;
 
     int numberOfLevels = 2;

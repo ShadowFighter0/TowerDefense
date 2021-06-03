@@ -42,6 +42,8 @@ public class LevelsScreen implements Screen {
 	{
 		this.level = levelFactory.getLevel(levelIndex);
 
+		SoundManager.getInstance().PlayMusic();
+
 		mobileIMLevel.SetLevel(level);
 		desktopIMLevel.SetLevel(level);
 

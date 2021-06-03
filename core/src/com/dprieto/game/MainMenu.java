@@ -29,7 +29,7 @@ public class MainMenu implements Screen {
     ArrayList<HUDElement> hudElementsMainMenu;
     ArrayList<HUDButton> hudButtonsMainMenu;
 
-    ArrayList<HUDElement> hudElementsChooseLevel;
+    HUDElement backGround;
     ArrayList<HUDButton> hudButtonsChooseLevel;
     Vector2 miniLevelPosition;
     Vector2 miniLevelDimension;
@@ -122,13 +122,12 @@ public class MainMenu implements Screen {
         font = new BitmapFont(Gdx.files.internal("Fonts/Font.fnt"));
         font.setColor(Color.BLACK);
 
-        hudElementsChooseLevel = new ArrayList<HUDElement>();
+
         hudButtonsChooseLevel = new ArrayList<HUDButton>();
 
-        hudElementsChooseLevel.add(new HUDElement("ChooseMenuBackground", new Vector2(0,0),
-                new Vector2(1,1), HUDElement.Anchor.MiddleScreen, camera));
-        hudElementsChooseLevel.add(new HUDText("LevelName", new Vector2(-50,-70),
-                HUDElement.Anchor.MiddleScreen, font, camera));
+        backGround = new HUDElement("ChooseMenuBackground", new Vector2(0,0),
+                new Vector2(1,1), HUDElement.Anchor.MiddleScreen, camera);
+
 
         hudButtonsChooseLevel.add(new HUDButton ("QuitButton",  new Vector2(-250,-240), new Vector2(0.9f,0.9f),
                 HUDElement.Anchor.MiddleScreen, HUDButton.ButtonType.Quit, null, camera));
@@ -167,15 +166,13 @@ public class MainMenu implements Screen {
             //Background
             hudElementsMainMenu.get(0).render(batch);
 
-            hudElementsChooseLevel.get(0).render(batch);
+            backGround.render(batch);
 
             //Display miniLevel
             batch.draw(AssetManager.getInstance().getMap("Map" + currentLevel),
                     camera.position.x + miniLevelPosition.x - miniLevelDimension.x/2,
                     camera.position.y + miniLevelPosition.y - miniLevelDimension.y/2,
                     miniLevelDimension.x, miniLevelDimension.y);
-
-            hudElementsChooseLevel.get(1).render(batch);
 
             //Buttons
             for (HUDButton button : hudButtonsChooseLevel)
