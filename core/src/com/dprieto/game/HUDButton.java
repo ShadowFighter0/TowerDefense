@@ -114,19 +114,55 @@ public class HUDButton extends HUDElement{
                 break;
 
             case MusicVolumeUp:
-                    //level.winDefeatMenu.
+
+                Gdx.app.debug("CurrentMusic",SoundManager.getInstance().currentMusicVolume + "");
+                if (SoundManager.getInstance().currentMusicVolume < 10)
+                {
+                    SoundManager.getInstance().currentMusicVolume++;
+
+                    level.winDefeatMenu.musicSelectorButton.offsetPosition.x =
+                            level.winDefeatMenu.musicEmpty.x +
+                                    (SoundManager.getInstance().currentMusicVolume * ((level.winDefeatMenu.musicFull.cpy().x - level.winDefeatMenu.musicEmpty.cpy().x) / 10f));
+                }
                 break;
 
             case MusicVolumeDown:
 
+                Gdx.app.debug("CurrentMusic",SoundManager.getInstance().currentMusicVolume + "");
+                if (SoundManager.getInstance().currentMusicVolume > 0)
+                {
+                    SoundManager.getInstance().currentMusicVolume--;
+
+                    level.winDefeatMenu.musicSelectorButton.offsetPosition.x =
+                            level.winDefeatMenu.musicEmpty.x +
+                                    (SoundManager.getInstance().currentMusicVolume * ((level.winDefeatMenu.musicFull.cpy().x - level.winDefeatMenu.musicEmpty.cpy().x) / 10f));
+                }
                 break;
 
             case SoundVolumeUp:
 
+                Gdx.app.debug("CurrentMusic",SoundManager.getInstance().currentSoundVolume + "");
+                if (SoundManager.getInstance().currentSoundVolume < 10)
+                {
+                    SoundManager.getInstance().currentSoundVolume++;
+
+                    level.winDefeatMenu.soundSelectorButton.offsetPosition.x =
+                            level.winDefeatMenu.musicEmpty.x +
+                            (SoundManager.getInstance().currentSoundVolume * ((level.winDefeatMenu.soundFull.cpy().x - level.winDefeatMenu.soundEmpty.cpy().x) / 10f));
+                }
                 break;
 
             case SoundVolumeDown:
 
+                Gdx.app.debug("CurrentMusic",SoundManager.getInstance().currentSoundVolume + "");
+                if (SoundManager.getInstance().currentSoundVolume > 0)
+                {
+                    SoundManager.getInstance().currentSoundVolume--;
+
+                    level.winDefeatMenu.soundSelectorButton.offsetPosition.x =
+                            level.winDefeatMenu.musicEmpty.x +
+                                    (SoundManager.getInstance().currentSoundVolume * ((level.winDefeatMenu.soundFull.cpy().x - level.winDefeatMenu.soundEmpty.cpy().x) / 10f));
+                }
                 break;
 
             case Quit:

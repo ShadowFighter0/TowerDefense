@@ -13,8 +13,8 @@ public class SoundManager {
 
     Music backgroundMusic;
 
-    float currentSoundVolume = 1;
-    float currentMusicVolume  = 1;
+    int currentSoundVolume = 10;
+    int currentMusicVolume  = 10;
 
     SoundManager ()
     {
@@ -41,19 +41,19 @@ public class SoundManager {
     {
         for (int i = 0; i < activeSounds.size(); i++)
         {
-            activeSounds.get(i).play(currentSoundVolume);
+            activeSounds.get(i).play((float)currentSoundVolume/10);
         }
     }
 
-    public void SetSoundVolume (float newVolume)
+    public void SetSoundVolume (int newVolume)
     {
         currentSoundVolume = newVolume;
     }
 
-    public void SetMusicVolume (float newVolume)
+    public void SetMusicVolume (int newVolume)
     {
         currentMusicVolume = newVolume;
-        backgroundMusic.setVolume(currentMusicVolume);
+        backgroundMusic.setVolume((float)currentMusicVolume/10);
     }
 
     public void PlaySound (String name)
@@ -66,7 +66,7 @@ public class SoundManager {
     public void PlayMusic ()
     {
         backgroundMusic = AssetManager.getInstance().backgroundMusic;
-        backgroundMusic.setVolume(currentMusicVolume);
+        backgroundMusic.setVolume((float)currentMusicVolume/10);
         backgroundMusic.setLooping(true);
         backgroundMusic.play();
     }

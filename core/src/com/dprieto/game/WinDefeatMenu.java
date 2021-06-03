@@ -96,13 +96,13 @@ public class WinDefeatMenu {
         musicEmpty = new Vector2(-40, 120);
 
         musicVolumeDown = new HUDButton ("ArrowLeft",  new Vector2(-30,-20), new Vector2(0.25f,0.25f),
-                HUDElement.Anchor.MiddleScreen, HUDButton.ButtonType.ArrowLeft, null, camera);
+                HUDElement.Anchor.MiddleScreen, HUDButton.ButtonType.MusicVolumeDown, level, camera);
         musicVolumeUp = new HUDButton ("ArrowRight",  new Vector2(150,-20), new Vector2(0.25f,0.25f),
-                HUDElement.Anchor.MiddleScreen, HUDButton.ButtonType.ArrowRight, null, camera);
+                HUDElement.Anchor.MiddleScreen, HUDButton.ButtonType.MusicVolumeUp, level, camera);
         soundVolumeDown = new HUDButton ("ArrowLeft",  new Vector2(-30,80), new Vector2(0.25f,0.25f),
-                HUDElement.Anchor.MiddleScreen, HUDButton.ButtonType.ArrowLeft, null, camera);
+                HUDElement.Anchor.MiddleScreen, HUDButton.ButtonType.SoundVolumeDown, level, camera);
         soundVolumeUp = new HUDButton ("ArrowRight",  new Vector2(150,80), new Vector2(0.25f,0.25f),
-                HUDElement.Anchor.MiddleScreen, HUDButton.ButtonType.ArrowRight, null, camera);
+                HUDElement.Anchor.MiddleScreen, HUDButton.ButtonType.SoundVolumeUp, level, camera);
 
 
         //Buttons
@@ -239,6 +239,30 @@ public class WinDefeatMenu {
                 }
 
                 newClick = restartLevelButton.checkClicked(point);
+                if (!clicked)
+                {
+                    clicked = newClick;
+                }
+
+                newClick = soundVolumeUp.checkClicked(point);
+                if (!clicked)
+                {
+                    clicked = newClick;
+                }
+
+                newClick = soundVolumeDown.checkClicked(point);
+                if (!clicked)
+                {
+                    clicked = newClick;
+                }
+
+                newClick = musicVolumeUp.checkClicked(point);
+                if (!clicked)
+                {
+                    clicked = newClick;
+                }
+
+                newClick = musicVolumeDown.checkClicked(point);
                 if (!clicked)
                 {
                     clicked = newClick;
