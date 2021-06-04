@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector3;
 public class GestureListenerMainMenu implements GestureDetector.GestureListener {
 
     MainMenu mainMenu;
+
     Vector2 point;
 
     public GestureListenerMainMenu(MainMenu mainMenu)

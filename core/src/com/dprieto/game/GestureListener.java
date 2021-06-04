@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector3;
 public class GestureListener implements GestureDetector.GestureListener {
 
     private Level level;
+
     Vector2 point;
     boolean isDragging;
     Vector2 screenPoint;
@@ -24,7 +25,7 @@ public class GestureListener implements GestureDetector.GestureListener {
 
     @Override
     public boolean touchDown(float x, float y, int pointer, int button) {
-        Vector3 pos = level.worldCamera.orthographicCamera.unproject(new Vector3(x,y,0));
+        Vector3 pos = level.guiCamera.orthographicCamera.unproject(new Vector3(x,y,0));
 
         screenPoint.x = x;
         screenPoint.y = y;
@@ -32,14 +33,48 @@ public class GestureListener implements GestureDetector.GestureListener {
         point.x = pos.x;
         point.y = pos.y;
 
+        if (!GuiCamera())
+        {
+            pos = level.worldCamera.orthographicCamera.unproject(new Vector3(x,y,0));
+
+            point.x = pos.x;
+            point.y = pos.y;
+
+            WorldCamera();
+        }
+        return false;
+    }
+
+    private boolean GuiCamera()
+    {
+        boolean newClick = false;
+        boolean clicked = false;
+
+        clicked = level.winDefeatMenu.CheckClicks(point);
+
+        for (HUDButton button : level.buttonElements ) {
+
+            newClick = button.checkClicked(point);
+
+            if(!clicked)
+            {
+                clicked = newClick;
+            }
+        }
+
+        return clicked;
+    }
+
+    private void WorldCamera() {
+
         boolean clicked = false;
 
         //Check WaveTimer
-        if(level.enemyPooler.waveTimer.isActive())
+        if (level.enemyPooler.waveTimer.isActive())
         {
             clicked = level.enemyPooler.waveTimer.checkClicked(point);
         }
-        if(!clicked)
+        if (!clicked)
         {
             //Check Options
             if (BuildRing.getInstance().isActive())
@@ -54,11 +89,9 @@ public class GestureListener implements GestureDetector.GestureListener {
             //NO tower or build has been touched
             if(!clicked) {
                 isDragging = true;
-
-                BuildRing.getInstance().setActive(false);
+                BuildRing.getInstance().turnOff();
             }
         }
-        return false;
     }
 
     private boolean checkTowers(boolean clicked) {
