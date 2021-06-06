@@ -133,7 +133,7 @@ public class Level {
     void CreateGUI()
     {
         font = new BitmapFont(Gdx.files.internal("Fonts/Font.fnt"));
-        font.setColor(Color.BLACK);
+        font.setColor(Color.WHITE);
 
         guiImages = new ArrayList<HUDElement>();
         guiImages.add(new HUDElement("barGUI", new Vector2(-260,-50),new Vector2(1.5f,1f),
