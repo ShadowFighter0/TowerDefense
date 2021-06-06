@@ -86,15 +86,27 @@ public class Camera {
 
     public void ExpandResize(int newWidth, int newHeight)
     {
-        if (newWidth - (viewportWidth - viewportHeight) < newHeight ) //if more height than width adjust width
+        if (newWidth < newHeight) //if more height than width adjust width
         {
             width = (viewportHeight / newHeight) * newWidth;
             height = viewportHeight;
+
+            if (width > viewportWidth)
+            {
+                height = (viewportWidth / newWidth) * newHeight;
+                width = viewportWidth;
+            }
         }
         else //else more width than height adjust the height
         {
             height = (viewportWidth / newWidth) * newHeight;
             width = viewportWidth;
+
+            if (height > viewportHeight)
+            {
+                width = (viewportHeight / newHeight) * newWidth;
+                height = viewportHeight;
+            }
         }
 
         currentWidth = width;
